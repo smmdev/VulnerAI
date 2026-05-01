@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <title>VulnerAI — Panel de Administración</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/admin.css" />
+  <script src="assets/js/theme.js"></script>
+</head>
+<body class="page-wrapper">
+
+  <div data-component="header"></div>
+
+  <main class="page-main" id="main-content">
+
+    <!-- Auth gate / loading state -->
+    <div id="admin-content" hidden>
+
+      <div class="admin-layout">
+
+        <!-- ── Sidebar ──────────────────────────────────────────────── -->
+        <aside class="admin-sidebar" aria-label="Navegación del panel">
+
+          <div style="padding:0 var(--space-4) var(--space-4)">
+            <div style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:var(--space-1)">Sesión activa</div>
+            <div id="admin-user-email" style="font-size:var(--text-sm);font-weight:600;color:var(--text-primary);word-break:break-all"></div>
+          </div>
+
+          <span class="admin-sidebar__label">Gestión</span>
+          <nav class="admin-sidebar__nav" aria-label="Secciones de administración">
+
+            <button class="admin-nav-item" data-page="contributions">
+              <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+              Contribuciones
+              <span class="admin-nav-badge" id="nav-badge-pending" style="display:none">0</span>
+            </button>
+
+            <button class="admin-nav-item" data-page="collection">
+              <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/>
+                <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/>
+              </svg>
+              Colección
+            </button>
+
+            <button class="admin-nav-item" data-page="overview">
+              <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+              Resumen
+            </button>
+
+          </nav>
+
+          <div style="padding:var(--space-6) var(--space-4) 0;margin-top:auto">
+            <a href="index.html" class="admin-nav-item" style="text-decoration:none">
+              <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5M12 5l-7 7 7 7"/>
+              </svg>
+              Volver al sitio
+            </a>
+          </div>
+
+        </aside>
+
+        <!-- ── Main ─────────────────────────────────────────────────── -->
+        <div class="admin-main">
+
+          <!-- ══ Página: Resumen ════════════════════════════════════════ -->
+          <section class="admin-page" id="page-overview" aria-label="Resumen">
+            <div class="admin-page-header">
+              <h1 class="admin-page-title">Resumen</h1>
+              <p class="admin-page-subtitle">Estado global de las contribuciones y actividad del sistema.</p>
+            </div>
+
+            <div class="admin-stats">
+              <div class="admin-stat-card">
+                <div class="admin-stat-card__value" id="stat-total">—</div>
+                <div class="admin-stat-card__label">Total contribuciones</div>
+              </div>
+              <div class="admin-stat-card" style="border-color:rgba(234,179,8,0.4)">
+                <div class="admin-stat-card__value" id="stat-pending" style="color:var(--severity-medium)">—</div>
+                <div class="admin-stat-card__label">Pendientes de revisión</div>
+              </div>
+              <div class="admin-stat-card" style="border-color:rgba(34,197,94,0.4)">
+                <div class="admin-stat-card__value" id="stat-approved" style="color:var(--severity-low)">—</div>
+                <div class="admin-stat-card__label">Aprobadas</div>
+              </div>
+              <div class="admin-stat-card" style="border-color:rgba(239,68,68,0.4)">
+                <div class="admin-stat-card__value" id="stat-rejected" style="color:var(--severity-critical)">—</div>
+                <div class="admin-stat-card__label">Rechazadas</div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:var(--space-5)">
+
+              <div style="background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:var(--space-6)">
+                <h2 style="font-size:var(--text-base);font-weight:700;margin-bottom:var(--space-4)">Acciones rápidas</h2>
+                <div style="display:flex;flex-direction:column;gap:var(--space-2)">
+                  <button class="btn btn--primary" data-page="contributions">Revisar contribuciones pendientes</button>
+                  <a href="vulnerabilities.html" class="btn btn--ghost" target="_blank">Ver catálogo público</a>
+                  <a href="contribute.html" class="btn btn--ghost" target="_blank">Ver formulario de contribución</a>
+                </div>
+              </div>
+
+              <div style="background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:var(--space-6)">
+                <h2 style="font-size:var(--text-base);font-weight:700;margin-bottom:var(--space-4)">Datos del catálogo</h2>
+                <ul style="font-size:var(--text-sm);color:var(--text-secondary);line-height:2;list-style:none" id="overview-catalog-stats">
+                  <li><strong id="ov-vulns">—</strong> vulnerabilidades publicadas</li>
+                  <li><strong>3</strong> estandares mapeados</li>
+                  <li><strong id="ov-models">—</strong> modelos analizados</li>
+                  <li><strong id="ov-snippets">—</strong> snippets de codigo</li>
+                </ul>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- ══ Página: Contribuciones ════════════════════════════════ -->
+          <section class="admin-page" id="page-contributions" aria-label="Gestión de contribuciones">
+            <div class="admin-page-header">
+              <h1 class="admin-page-title">Contribuciones</h1>
+              <p class="admin-page-subtitle" id="contributions-count">Cargando…</p>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-3)">
+              <div class="admin-filters" role="group" aria-label="Filtrar por estado">
+                <button class="admin-filter-btn is-active" data-filter="all">Todas</button>
+                <button class="admin-filter-btn" data-filter="pending">Pendientes</button>
+                <button class="admin-filter-btn" data-filter="approved">Aprobadas</button>
+                <button class="admin-filter-btn" data-filter="rejected">Rechazadas</button>
+              </div>
+              <button id="btn-clear-processed" class="admin-action-btn admin-action-btn--delete" title="Elimina del historial las contribuciones ya aprobadas o rechazadas">
+                Limpiar historial
+              </button>
+            </div>
+
+            <div class="admin-toolbar">
+              <div class="admin-toolbar__search">
+                <svg class="admin-toolbar__search-icon" width="14" height="14" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                <input type="search" id="contrib-search" class="admin-search-input"
+                       placeholder="Buscar por amenaza, autor, modelo…" autocomplete="off"
+                       aria-label="Buscar contribuciones" />
+              </div>
+              <div class="admin-filters admin-filters--compact" role="group" aria-label="Ordenar por fecha">
+                <button class="admin-filter-btn is-active" data-contrib-sort="newest">Más recientes</button>
+                <button class="admin-filter-btn" data-contrib-sort="oldest">Más antiguas</button>
+              </div>
+            </div>
+
+            <div class="admin-table-wrap">
+              <table class="admin-table" aria-label="Lista de contribuciones">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Amenaza</th>
+                    <th>Autor</th>
+                    <th>Severidad</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="contributions-tbody">
+                  <tr>
+                    <td colspan="6" class="admin-empty">Cargando contribuciones…</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </section>
+
+          <!-- ══ Página: Colección ══════════════════════════════════════ -->
+          <section class="admin-page" id="page-collection" aria-label="Colección de vulnerabilidades">
+            <div class="admin-page-header">
+              <h1 class="admin-page-title">Colección</h1>
+              <p class="admin-page-subtitle" id="collection-count">Cargando…</p>
+            </div>
+
+            <div class="admin-filters" role="group" aria-label="Filtrar por estado de publicación">
+              <button class="admin-filter-btn is-active" data-collection-filter="all">Todas</button>
+              <button class="admin-filter-btn" data-collection-filter="published">Publicadas</button>
+              <button class="admin-filter-btn" data-collection-filter="unpublished">No publicadas</button>
+            </div>
+
+            <div class="admin-toolbar">
+              <div class="admin-toolbar__search">
+                <svg class="admin-toolbar__search-icon" width="14" height="14" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                <input type="search" id="coll-search" class="admin-search-input"
+                       placeholder="Buscar por ID, nombre, categoría…" autocomplete="off"
+                       aria-label="Buscar vulnerabilidades" />
+              </div>
+              <div class="admin-filters admin-filters--compact" role="group" aria-label="Filtrar por severidad">
+                <button class="admin-filter-btn is-active" data-coll-sev="">Todas</button>
+                <button class="admin-filter-btn" data-coll-sev="critical">Crítica</button>
+                <button class="admin-filter-btn" data-coll-sev="high">Alta</button>
+                <button class="admin-filter-btn" data-coll-sev="medium">Media</button>
+                <button class="admin-filter-btn" data-coll-sev="low">Baja</button>
+              </div>
+            </div>
+
+            <div class="admin-table-wrap">
+              <table class="admin-table" aria-label="Lista de vulnerabilidades">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Severidad</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="collection-tbody">
+                  <tr>
+                    <td colspan="6" class="admin-empty">Cargando vulnerabilidades…</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+        </div><!-- /admin-main -->
+
+      </div><!-- /admin-layout -->
+
+    </div><!-- /admin-content -->
+
+    <!-- Auth gate placeholder (shown while JS decides) -->
+    <div id="admin-content-loading" class="container section" style="text-align:center;padding:var(--space-16)">
+      <p style="color:var(--text-muted)">Verificando sesión…</p>
+    </div>
+
+  </main>
+
+  <!-- ══ Detail modal ════════════════════════════════════════════════════ -->
+  <div class="admin-modal-overlay" id="contribution-modal" hidden
+       role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="admin-modal">
+      <button class="admin-modal__close" id="modal-close-btn" aria-label="Cerrar">×</button>
+
+      <h2 class="admin-modal__title" id="modal-title"></h2>
+
+      <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-6)">
+        <span id="modal-status"></span>
+        <span class="chip" id="modal-severity"></span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5)">
+        <div class="admin-field">
+          <span class="admin-field__label">Modelo afectado</span>
+          <div class="admin-field__value" id="modal-model"></div>
+        </div>
+        <div class="admin-field">
+          <span class="admin-field__label">Categoría de ataque</span>
+          <div class="admin-field__value" id="modal-category"></div>
+        </div>
+        <div class="admin-field">
+          <span class="admin-field__label">Subcategoría</span>
+          <div class="admin-field__value" id="modal-subcategory"></div>
+        </div>
+        <div class="admin-field">
+          <span class="admin-field__label">Referencia CVE</span>
+          <div class="admin-field__value" id="modal-cve"></div>
+        </div>
+        <div class="admin-field">
+          <span class="admin-field__label">Fecha de envío</span>
+          <div class="admin-field__value" id="modal-date"></div>
+        </div>
+      </div>
+
+      <div class="admin-field">
+        <span class="admin-field__label">Payload / vector de ataque</span>
+        <div class="admin-field__value admin-field__value--code" id="modal-payload"></div>
+      </div>
+
+      <div class="admin-field">
+        <span class="admin-field__label">Descripción técnica</span>
+        <div class="admin-field__value" id="modal-description"></div>
+      </div>
+
+      <div class="admin-field">
+        <span class="admin-field__label">Propuesta de mitigación</span>
+        <div class="admin-field__value" id="modal-mitigation"></div>
+      </div>
+
+      <div class="admin-field">
+        <span class="admin-field__label">Autor</span>
+        <div class="admin-field__value" id="modal-submitter"></div>
+      </div>
+
+      <!-- Extra data from contributor (steps 3–4) -->
+      <div id="modal-extra-data"></div>
+
+      <div class="admin-modal__actions" id="modal-actions"></div>
+    </div>
+  </div>
+
+  <!-- ══ Edit Vulnerability Modal ═══════════════════════════════════════ -->
+  <div class="admin-modal-overlay" id="vuln-edit-modal" hidden
+       role="dialog" aria-modal="true" aria-labelledby="vuln-edit-title">
+    <div class="admin-modal admin-modal--wide" style="max-height:92vh;overflow-y:auto;display:flex;flex-direction:column">
+      <button class="admin-modal__close" id="vuln-edit-close-btn" aria-label="Cerrar">×</button>
+      <h2 class="admin-modal__title" id="vuln-edit-title">Editar vulnerabilidad</h2>
+
+      <form id="vuln-edit-form" novalidate>
+        <input type="hidden" id="vuln-edit-id" />
+
+        <!-- ── Básico ── -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-4)">
+          <div class="admin-field">
+            <label class="admin-field__label" for="vuln-edit-title-input">Nombre</label>
+            <input type="text" id="vuln-edit-title-input" class="admin-edit-input" required />
+          </div>
+          <div class="admin-field">
+            <label class="admin-field__label" for="vuln-edit-severity">Severidad</label>
+            <select id="vuln-edit-severity" class="admin-edit-input">
+              <option value="critical">Crítica</option>
+              <option value="high">Alta</option>
+              <option value="medium">Media</option>
+              <option value="low">Baja</option>
+            </select>
+          </div>
+          <div class="admin-field">
+            <label class="admin-field__label" for="vuln-edit-model">Modelos afectados</label>
+            <input type="text" id="vuln-edit-model" class="admin-edit-input" placeholder="gpt-4o, claude-3-5-sonnet…" />
+            <p class="admin-field__hint">Separados por coma. Al salir del campo se generan los selectores de impacto.</p>
+          </div>
+          <!-- Per-model impact — rendered dynamically when models field is populated -->
+          <div class="admin-field" id="admin-model-impact-section" style="display:none;grid-column:1/-1">
+            <label class="admin-field__label">Impacto por modelo</label>
+            <div id="admin-model-impact-rows"></div>
+          </div>
+          <div class="admin-field">
+            <label class="admin-field__label" for="vuln-edit-category">Categoría</label>
+            <input type="text" id="vuln-edit-category" class="admin-edit-input" placeholder="p. ej. Prompt Injection" />
+          </div>
+          <div class="admin-field">
+            <label class="admin-field__label" for="vuln-edit-subcategory">Subcategoría</label>
+            <input type="text" id="vuln-edit-subcategory" class="admin-edit-input" placeholder="p. ej. Direct Injection" />
+          </div>
+          <div class="admin-field">
+            <label class="admin-field__label" for="vuln-edit-cve">Referencia CVE/MITRE</label>
+            <input type="text" id="vuln-edit-cve" class="admin-edit-input" placeholder="CVE-2024-XXXX" />
+          </div>
+          <div class="admin-field">
+            <label class="admin-field__label" for="vuln-edit-cvss">Puntuación CVSS (0.0–10.0)</label>
+            <input type="number" id="vuln-edit-cvss" class="admin-edit-input" min="0" max="10" step="0.1" placeholder="8.5" />
+            <p id="admin-cvss-coherence" style="display:none;font-size:var(--text-xs);color:var(--severity-medium);margin-top:var(--space-1);font-weight:500"></p>
+          </div>
+          <div class="admin-field" style="display:flex;align-items:center;gap:var(--space-3);padding-top:var(--space-6)">
+            <input type="checkbox" id="vuln-edit-published" style="width:16px;height:16px;accent-color:var(--accent-primary)" />
+            <label for="vuln-edit-published" class="admin-field__label" style="margin:0;cursor:pointer">Publicada en el catálogo</label>
+          </div>
+        </div>
+
+        <div class="admin-field" style="margin-bottom:var(--space-4)">
+          <label class="admin-field__label" for="vuln-edit-short-desc">Descripción breve</label>
+          <textarea id="vuln-edit-short-desc" class="admin-edit-input" rows="2" placeholder="Resumen conciso de la vulnerabilidad…"></textarea>
+        </div>
+
+        <div class="admin-field" style="margin-bottom:var(--space-5)">
+          <label class="admin-field__label" for="vuln-edit-full-desc">Descripción técnica completa</label>
+          <textarea id="vuln-edit-full-desc" class="admin-edit-input" rows="5" placeholder="Explicación detallada del mecanismo de ataque…"></textarea>
+        </div>
+
+        <!-- ── Técnico avanzado ── -->
+        <details class="admin-section" style="margin-bottom:var(--space-4)">
+          <summary class="admin-section__title">Técnico avanzado</summary>
+          <div class="admin-section__body">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-4)">
+              <div class="admin-field">
+                <label class="admin-field__label" for="vuln-edit-attack-vector">Vector de ataque</label>
+                <select id="vuln-edit-attack-vector" class="admin-edit-input">
+                  <option value="">— Sin especificar —</option>
+                  <option value="user_input">Entrada de usuario</option>
+                  <option value="external_content">Contenido externo</option>
+                  <option value="inference">Inferencia</option>
+                  <option value="training_pipeline">Pipeline de entrenamiento</option>
+                  <option value="output_pipeline">Pipeline de salida</option>
+                  <option value="agent_pipeline">Pipeline agéntico</option>
+                  <option value="api">API</option>
+                </select>
+              </div>
+              <div class="admin-field">
+                <label class="admin-field__label" for="vuln-edit-cvss-vector">Vector CVSS (cadena)</label>
+                <input type="text" id="vuln-edit-cvss-vector" class="admin-edit-input" placeholder="AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:L/A:N" />
+              </div>
+            </div>
+
+            <div style="margin-bottom:var(--space-4)">
+              <div class="admin-field__label" style="margin-bottom:var(--space-3)">Mapeo de estándares</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--space-3)">
+                <div class="admin-field">
+                  <label class="admin-field__label" for="vuln-edit-std-owasp">OWASP LLM</label>
+                  <input type="text" id="vuln-edit-std-owasp" class="admin-edit-input" placeholder="LLM01:2025" />
+                </div>
+                <div class="admin-field">
+                  <label class="admin-field__label" for="vuln-edit-std-mitre">MITRE ATLAS</label>
+                  <input type="text" id="vuln-edit-std-mitre" class="admin-edit-input" placeholder="AML.T0054" />
+                </div>
+                <div class="admin-field">
+                  <label class="admin-field__label" for="vuln-edit-std-nist">NIST AI RMF</label>
+                  <input type="text" id="vuln-edit-std-nist" class="admin-edit-input" placeholder="GOVERN 1.1" />
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-bottom:var(--space-4)">
+              <div class="admin-field__label" style="margin-bottom:var(--space-3)">Impacto CIA</div>
+              <div class="admin-cia-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--space-3);margin-bottom:var(--space-3)">
+                <div class="admin-field">
+                  <label class="admin-field__label" for="vuln-edit-impact-c">Confidencialidad</label>
+                  <select id="vuln-edit-impact-c" class="admin-edit-input">
+                    <option value="none">Ninguno</option>
+                    <option value="low">Bajo</option>
+                    <option value="medium">Medio</option>
+                    <option value="high">Alto</option>
+                  </select>
+                </div>
+                <div class="admin-field">
+                  <label class="admin-field__label" for="vuln-edit-impact-i">Integridad</label>
+                  <select id="vuln-edit-impact-i" class="admin-edit-input">
+                    <option value="none">Ninguno</option>
+                    <option value="low">Bajo</option>
+                    <option value="medium">Medio</option>
+                    <option value="high">Alto</option>
+                  </select>
+                </div>
+                <div class="admin-field">
+                  <label class="admin-field__label" for="vuln-edit-impact-a">Disponibilidad</label>
+                  <select id="vuln-edit-impact-a" class="admin-edit-input">
+                    <option value="none">Ninguno</option>
+                    <option value="low">Bajo</option>
+                    <option value="medium">Medio</option>
+                    <option value="high">Alto</option>
+                  </select>
+                </div>
+              </div>
+              <div class="admin-field">
+                <label class="admin-field__label" for="vuln-edit-impact-desc">Descripción del impacto</label>
+                <textarea id="vuln-edit-impact-desc" class="admin-edit-input" rows="2" placeholder="Consecuencias reales de la explotación…"></textarea>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)">
+              <div class="admin-field">
+                <label class="admin-field__label" for="vuln-edit-prerequisites">Prerequisitos (separados por coma)</label>
+                <input type="text" id="vuln-edit-prerequisites" class="admin-edit-input" placeholder="Acceso al system prompt, capacidad de inyección…" />
+              </div>
+              <div class="admin-field">
+                <label class="admin-field__label" for="vuln-edit-tags">Tags (separados por coma)</label>
+                <input type="text" id="vuln-edit-tags" class="admin-edit-input" placeholder="prompt-injection, llm, rag…" />
+              </div>
+              <div class="admin-field" style="grid-column:1/-1">
+                <label class="admin-field__label" for="vuln-edit-related">Vulnerabilidades relacionadas (IDs)</label>
+                <input type="text" id="vuln-edit-related" class="admin-edit-input" placeholder="VAI-2024-001, VAI-2024-003…" />
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- ── Ejemplos de ataque ── -->
+        <details class="admin-section" style="margin-bottom:var(--space-4)">
+          <summary class="admin-section__title">Ejemplos de ataque</summary>
+          <div class="admin-section__body">
+            <div id="examples-list"></div>
+            <button type="button" class="btn btn--ghost btn--sm" id="add-example-btn" style="margin-top:var(--space-2)">+ Añadir ejemplo</button>
+          </div>
+        </details>
+
+        <!-- ── Mitigaciones ── -->
+        <details class="admin-section" style="margin-bottom:var(--space-4)">
+          <summary class="admin-section__title">Mitigaciones</summary>
+          <div class="admin-section__body">
+            <div id="mitigations-list"></div>
+            <button type="button" class="btn btn--ghost btn--sm" id="add-mitigation-btn" style="margin-top:var(--space-2)">+ Añadir mitigación</button>
+          </div>
+        </details>
+
+        <!-- ── Snippet de código ── -->
+        <details class="admin-section" style="margin-bottom:var(--space-4)">
+          <summary class="admin-section__title">Snippet de código</summary>
+          <div class="admin-section__body">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--space-3);margin-bottom:var(--space-3)">
+              <div class="admin-field">
+                <label class="admin-field__label" for="snippet-title">Título</label>
+                <input type="text" id="snippet-title" class="admin-edit-input" placeholder="Ejemplo de ataque básico" />
+              </div>
+              <div class="admin-field">
+                <label class="admin-field__label" for="snippet-type">Tipo</label>
+                <select id="snippet-type" class="admin-edit-input">
+                  <option value="">— Sin especificar —</option>
+                  <option value="attack">Ataque</option>
+                  <option value="defense">Defensa</option>
+                </select>
+              </div>
+              <div class="admin-field">
+                <label class="admin-field__label" for="snippet-language">Lenguaje</label>
+                <input type="text" id="snippet-language" class="admin-edit-input" placeholder="python, javascript, prompt…" />
+              </div>
+            </div>
+            <div class="admin-field" style="margin-bottom:var(--space-3)">
+              <label class="admin-field__label" for="snippet-explanation">Explicación</label>
+              <textarea id="snippet-explanation" class="admin-edit-input" rows="2" placeholder="Qué hace este snippet y por qué es relevante…"></textarea>
+            </div>
+            <div class="admin-field">
+              <label class="admin-field__label" for="snippet-code">Código</label>
+              <textarea id="snippet-code" class="admin-edit-input" rows="8" style="font-family:var(--font-mono);font-size:var(--text-xs)" placeholder="# Escribe aquí el código…"></textarea>
+            </div>
+          </div>
+        </details>
+
+        <!-- ── Referencias ── -->
+        <details class="admin-section" style="margin-bottom:var(--space-5)">
+          <summary class="admin-section__title">Referencias</summary>
+          <div class="admin-section__body">
+            <div id="references-list"></div>
+            <button type="button" class="btn btn--ghost btn--sm" id="add-reference-btn" style="margin-top:var(--space-2)">+ Añadir referencia</button>
+          </div>
+        </details>
+
+        <div id="approval-reason-wrap" style="display:none;width:100%;margin-bottom:var(--space-4)">
+          <label class="admin-field__label" for="approval-reason">Motivo de aceptación (opcional)</label>
+          <textarea id="approval-reason" class="admin-approval-reason"
+            placeholder="Indica el motivo de aceptación o notas para el contribuidor…"></textarea>
+        </div>
+        <div class="admin-modal__actions" style="justify-content:flex-end">
+          <button type="button" class="btn btn--ghost" id="vuln-edit-cancel-btn">Cancelar</button>
+          <button type="submit" class="btn btn--primary" id="vuln-edit-save-btn">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div data-component="footer"></div>
+
+  <script type="module" src="assets/js/components.js"></script>
+  <script type="module" src="assets/js/admin.js"></script>
+
+  <style>
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    #admin-content-loading { transition: opacity 0.2s; }
+
+    /* ── Collapsible sections in edit modal ── */
+    .admin-section {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .admin-section[open] { border-color: var(--border-default); }
+    .admin-section__title {
+      padding: var(--space-3) var(--space-4);
+      font-weight: 600;
+      font-size: var(--text-sm);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--text-secondary);
+      background: var(--bg-elevated);
+      user-select: none;
+      transition: background 150ms, color 150ms;
+    }
+    .admin-section__title:hover { background: var(--bg-surface); color: var(--text-primary); }
+    .admin-section__title::before {
+      content: '▶';
+      font-size: 0.6em;
+      opacity: 0.6;
+      transition: transform 150ms;
+      flex-shrink: 0;
+    }
+    .admin-section[open] .admin-section__title::before { transform: rotate(90deg); }
+    .admin-section__title::-webkit-details-marker { display: none; }
+    .admin-section__body {
+      padding: var(--space-4);
+      border-top: 1px solid var(--border-subtle);
+    }
+  </style>
+
+  <script>
+    // Hide loading placeholder once admin content is initialized
+    document.addEventListener('DOMContentLoaded', () => {
+      const content = document.getElementById('admin-content');
+      const loading = document.getElementById('admin-content-loading');
+      const observer = new MutationObserver(() => {
+        if (!content.hidden) { loading.style.display = 'none'; observer.disconnect(); }
+      });
+      observer.observe(content, { attributes: true, attributeFilter: ['hidden'] });
+      // If auth gate replaces loading content, hide the loading div
+      setTimeout(() => { if (loading) loading.style.display = 'none'; }, 500);
+    });
+  </script>
+
+</body>
+</html>

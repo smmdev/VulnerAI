@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <title>VulnerAI — Vulnerabilidades LLM</title>
+  <meta name="description" content="Explora y filtra las vulnerabilidades críticas en aplicaciones basadas en LLMs. Búsqueda, severidad y mapeo a OWASP LLM Top 10." />
+  <meta name="author" content="Samuel Muñoz Millán" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/vulnerabilities.css" />
+  <script src="assets/js/theme.js"></script>
+  <script defer src="assets/js/reveal.js"></script>
+</head>
+<body class="page-wrapper">
+
+  <div data-component="header"></div>
+
+  <main class="page-main" id="main-content">
+
+    <!-- ══════════════════════════════════════════════════════════════
+         CATALOG HEADER
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="catalog-page-header" aria-labelledby="catalog-title">
+      <div class="container">
+        <div class="catalog-page-header__inner">
+          <div class="catalog-page-header__meta">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+              <a href="index.html">Inicio</a>
+              <span class="breadcrumbs__sep" aria-hidden="true">/</span>
+              <span class="breadcrumbs__current">Vulnerabilidades</span>
+            </nav>
+            <span class="catalog-page-header__label">Base de conocimiento</span>
+            <h1 class="catalog-page-header__title" id="catalog-title">
+              Vulnerabilidades LLM
+            </h1>
+            <p class="catalog-page-header__desc">
+              <span id="catalog-vuln-count">—</span> vulnerabilidades mapeadas a OWASP, MITRE ATLAS y NIST AI RMF.
+              Filtra, busca y analiza vectores de ataque y mitigaciones.
+            </p>
+          </div>
+          <div class="catalog-page-header__actions">
+            <a href="about.html"      class="btn btn--secondary btn--sm">Metodología</a>
+            <a href="comparator.html" class="btn btn--primary   btn--sm">Comparar modelos</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         CATALOG LAYOUT: Sidebar + Content
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="catalog-body">
+      <div class="container">
+        <div class="catalog-layout">
+
+          <!-- ── SIDEBAR ────────────────────────────────────────────── -->
+          <aside class="catalog-sidebar" aria-label="Filtros del catálogo">
+            <div class="filter-panel" id="filter-panel">
+
+              <div class="filter-panel__head">
+                <span class="filter-panel__head-title">Filtros</span>
+                <button class="filter-panel__toggle"
+                        id="filter-panel-toggle"
+                        aria-expanded="true"
+                        aria-controls="filter-panel-body"
+                        aria-label="Mostrar u ocultar filtros">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2.5"
+                       stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="18 15 12 9 6 15"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="filter-panel__body" id="filter-panel-body">
+
+                <!-- Severidad -->
+                <div class="filter-group">
+                  <span class="filter-group__label">Severidad</span>
+                  <div class="filter-group__options">
+                    <label class="filter-check filter-check--critical">
+                      <input type="checkbox" data-filter="severity" value="critical" />
+                      <span class="filter-check__box"></span>
+                      <span class="filter-check__dot" aria-hidden="true"></span>
+                      <span class="filter-check__text">Crítica</span>
+                    </label>
+                    <label class="filter-check filter-check--high">
+                      <input type="checkbox" data-filter="severity" value="high" />
+                      <span class="filter-check__box"></span>
+                      <span class="filter-check__dot" aria-hidden="true"></span>
+                      <span class="filter-check__text">Alta</span>
+                    </label>
+                    <label class="filter-check filter-check--medium">
+                      <input type="checkbox" data-filter="severity" value="medium" />
+                      <span class="filter-check__box"></span>
+                      <span class="filter-check__dot" aria-hidden="true"></span>
+                      <span class="filter-check__text">Media</span>
+                    </label>
+                    <label class="filter-check filter-check--low">
+                      <input type="checkbox" data-filter="severity" value="low" />
+                      <span class="filter-check__box"></span>
+                      <span class="filter-check__dot" aria-hidden="true"></span>
+                      <span class="filter-check__text">Baja</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Categoría OWASP -->
+                <div class="filter-group">
+                  <span class="filter-group__label">Categoría OWASP</span>
+                  <div class="filter-group__options" id="filter-categories">
+                    <span class="filter-loading">Cargando…</span>
+                  </div>
+                </div>
+
+                <!-- Modelos afectados -->
+                <div class="filter-group">
+                  <span class="filter-group__label">Modelos afectados</span>
+                  <div class="filter-group__options" id="filter-models">
+                    <span class="filter-loading">Cargando…</span>
+                  </div>
+                </div>
+
+                <button class="filter-reset-btn btn btn--ghost btn--sm" id="reset-filters">
+                  Restablecer filtros
+                </button>
+
+              </div><!-- /filter-panel__body -->
+            </div><!-- /filter-panel -->
+          </aside>
+
+          <!-- ── MAIN CONTENT ────────────────────────────────────────── -->
+          <div class="catalog-content">
+            <h2 class="sr-only" id="catalog-section-title">Resultados del catálogo</h2>
+
+            <!-- Toolbar -->
+            <div class="catalog-toolbar">
+              <div class="catalog-toolbar__search" role="search">
+                <div class="search-wrap">
+                  <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                  </svg>
+                  <label class="sr-only" for="search-input">Buscar vulnerabilidades</label>
+                  <input class="search-input search-input--with-icon"
+                         id="search-input"
+                         type="search"
+                         placeholder="Buscar por ID, título o tags…"
+                         autocomplete="off" />
+                </div>
+              </div>
+
+              <div class="catalog-toolbar__right">
+                <div class="catalog-count" aria-live="polite">
+                  <span id="result-count"><strong>0</strong> de <strong>0</strong></span>
+                </div>
+                <label class="sr-only" for="catalog-sort">Ordenar</label>
+                <select class="catalog-sort" id="catalog-sort">
+                  <option value="cvss-desc">CVSS ↓</option>
+                  <option value="cvss-asc">CVSS ↑</option>
+                  <option value="alpha-asc">Nombre A–Z</option>
+                  <option value="recent">Más reciente</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Active filter chips -->
+            <div class="chip-list" id="active-chips" aria-live="polite"></div>
+
+            <!-- Cards grid -->
+            <div class="cards-grid catalog-grid" id="catalog-grid"
+                 aria-live="polite" aria-busy="true"></div>
+
+            <!-- Empty state -->
+            <div class="empty-state" id="empty-state" hidden>
+              <div class="empty-state__icon">&lt;/&gt;</div>
+              <p class="empty-state__title">Sin resultados</p>
+              <p class="empty-state__message">Prueba con menos filtros o una búsqueda diferente.</p>
+              <button class="btn btn--secondary btn--sm" id="empty-clear">Limpiar filtros</button>
+            </div>
+
+          </div><!-- /catalog-content -->
+
+        </div><!-- /catalog-layout -->
+      </div>
+    </div>
+
+  </main>
+
+  <div data-component="footer"></div>
+
+  <script type="module" src="assets/js/components.js"></script>
+  <script type="module" src="assets/js/vulnerabilities.js"></script>
+  <script src="assets/js/cookie-consent.js"></script>
+</body>
+</html>

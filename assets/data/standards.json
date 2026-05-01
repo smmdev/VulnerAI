@@ -1,0 +1,93 @@
+{
+  "version": "1.0.0",
+  "standards": {
+    "owasp_llm": {
+      "id": "owasp_llm",
+      "name": "OWASP Top 10 for LLM Applications",
+      "version": "2025",
+      "description": "Lista de las 10 vulnerabilidades más críticas en aplicaciones basadas en modelos de lenguaje, publicada por el Open Worldwide Application Security Project.",
+      "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+      "categories": [
+        { "id": "LLM01:2025", "name": "Prompt Injection",                  "vulnerai_ids": ["VAI-2026-001", "VAI-2026-002", "VAI-2026-010"] },
+        { "id": "LLM02:2025", "name": "Sensitive Information Disclosure",   "vulnerai_ids": ["VAI-2026-003"] },
+        { "id": "LLM03:2025", "name": "Supply Chain",                       "vulnerai_ids": [] },
+        { "id": "LLM04:2025", "name": "Data and Model Poisoning",           "vulnerai_ids": ["VAI-2026-004"] },
+        { "id": "LLM05:2025", "name": "Improper Output Handling",           "vulnerai_ids": ["VAI-2026-005"] },
+        { "id": "LLM06:2025", "name": "Excessive Agency",                   "vulnerai_ids": ["VAI-2026-006"] },
+        { "id": "LLM07:2025", "name": "System Prompt Leakage",              "vulnerai_ids": ["VAI-2026-007"] },
+        { "id": "LLM08:2025", "name": "Vector and Embedding Weaknesses",    "vulnerai_ids": [] },
+        { "id": "LLM09:2025", "name": "Misinformation",                     "vulnerai_ids": ["VAI-2026-008"] },
+        { "id": "LLM10:2025", "name": "Unbounded Consumption",              "vulnerai_ids": ["VAI-2026-009"] }
+      ]
+    },
+    "mitre_atlas": {
+      "id": "mitre_atlas",
+      "name": "MITRE ATLAS",
+      "version": "4.5",
+      "description": "Adversarial Threat Landscape for Artificial-Intelligence Systems. Marco de tácticas y técnicas adversariales específicas para sistemas de IA y ML, análogo al MITRE ATT&CK para ciberseguridad clásica.",
+      "url": "https://atlas.mitre.org/",
+      "tactics": [
+        {
+          "id": "AML.TA0000",
+          "name": "ML Model Access",
+          "techniques": [
+            { "id": "AML.T0047", "name": "ML-Enabled Product or Service",    "vulnerai_ids": ["VAI-2026-006"] },
+            { "id": "AML.T0048", "name": "LLM Prompt Injection via RAG",     "vulnerai_ids": ["VAI-2026-008"] },
+            { "id": "AML.T0051", "name": "LLM Prompt Injection",             "vulnerai_ids": ["VAI-2026-001", "VAI-2026-002", "VAI-2026-010"] },
+            { "id": "AML.T0051.001", "name": "LLM Indirect Prompt Injection","vulnerai_ids": ["VAI-2026-002"] },
+            { "id": "AML.T0051.002", "name": "LLM Jailbreak",               "vulnerai_ids": ["VAI-2026-010"] },
+            { "id": "AML.T0056", "name": "LLM Meta Prompt Extraction",       "vulnerai_ids": ["VAI-2026-007"] }
+          ]
+        },
+        {
+          "id": "AML.TA0001",
+          "name": "ML Attack Staging",
+          "techniques": [
+            { "id": "AML.T0020", "name": "Poison Training Data",             "vulnerai_ids": ["VAI-2026-004"] },
+            { "id": "AML.T0024", "name": "Exfiltration via ML Inference API","vulnerai_ids": ["VAI-2026-003"] },
+            { "id": "AML.T0029", "name": "Denial of ML Service",             "vulnerai_ids": ["VAI-2026-009"] }
+          ]
+        }
+      ]
+    },
+    "nist_ai_rmf": {
+      "id": "nist_ai_rmf",
+      "name": "NIST AI Risk Management Framework",
+      "version": "1.0",
+      "description": "Marco voluntario del National Institute of Standards and Technology para gestionar los riesgos de los sistemas de IA a lo largo de su ciclo de vida. Organizado en cuatro funciones: Govern, Map, Measure y Manage.",
+      "url": "https://airc.nist.gov/",
+      "functions": [
+        {
+          "id": "GOVERN",
+          "name": "Govern",
+          "controls": [
+            { "id": "GOVERN-1.1", "name": "Policies for trustworthy AI",     "vulnerai_ids": ["VAI-2026-001", "VAI-2026-002", "VAI-2026-005", "VAI-2026-007", "VAI-2026-010"] },
+            { "id": "GOVERN-4.2", "name": "Organizational risk tolerance",   "vulnerai_ids": ["VAI-2026-006"] },
+            { "id": "GOVERN-6.1", "name": "Policies for AI risk",            "vulnerai_ids": ["VAI-2026-009"] }
+          ]
+        },
+        {
+          "id": "MAP",
+          "name": "Map",
+          "controls": [
+            { "id": "MAP-1.1",  "name": "AI risk context established",       "vulnerai_ids": ["VAI-2026-003", "VAI-2026-007"] }
+          ]
+        },
+        {
+          "id": "MEASURE",
+          "name": "Measure",
+          "controls": [
+            { "id": "MEASURE-2.5", "name": "AI system to be tested",         "vulnerai_ids": ["VAI-2026-008"] }
+          ]
+        },
+        {
+          "id": "MANAGE",
+          "name": "Manage",
+          "controls": [
+            { "id": "MANAGE-2.2", "name": "Mechanisms to sustain and improve","vulnerai_ids": ["VAI-2026-004"] }
+          ]
+        }
+      ]
+    }
+  }
+}

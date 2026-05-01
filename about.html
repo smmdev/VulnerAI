@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <title>VulnerAI — Metodología</title>
+  <meta name="description" content="Marco conceptual, estándares y criterios de clasificación utilizados en VulnerAI para evaluar vulnerabilidades en LLMs." />
+  <meta name="author" content="Samuel Muñoz Millán" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/about.css" />
+  <script src="assets/js/theme.js"></script>
+  <script defer src="assets/js/reveal.js"></script>
+</head>
+<body class="page-wrapper">
+
+  <div data-component="header"></div>
+
+  <main class="page-main" id="main-content">
+
+    <!-- Hero de metodología -->
+    <header class="about-hero">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="index.html">Inicio</a>
+          <span class="breadcrumbs__sep">/</span>
+          <span class="breadcrumbs__current">Metodología</span>
+        </nav>
+        <span class="about-hero__label">Marco conceptual</span>
+        <h1 class="about-hero__title">Metodología y estándares</h1>
+        <p class="about-hero__desc">
+          VulnerAI clasifica y prioriza vulnerabilidades en modelos LLM utilizando
+          tres marcos de referencia: OWASP LLM Top 10, MITRE ATLAS y NIST AI RMF.
+          Cada entrada incluye puntuación CVSS adaptada, perfil de riesgo por modelo
+          y snippets de código educativos.
+        </p>
+      </div>
+    </header>
+
+    <!-- Proceso de clasificación -->
+    <section class="about-section" aria-labelledby="proceso-title">
+      <div class="container">
+        <div class="about-section__head reveal">
+          <span class="about-section__label">Proceso</span>
+          <h2 class="about-section__title" id="proceso-title">Cómo clasificamos las vulnerabilidades</h2>
+        </div>
+
+        <div class="process-steps">
+          <div class="process-step reveal reveal--delay-1">
+            <div class="process-step__num" aria-hidden="true">01</div>
+            <div class="process-step__body">
+              <h3 class="process-step__title">Identificación</h3>
+              <p class="process-step__text">
+                Cada vulnerabilidad se identifica y documenta a partir de las categorías del
+                OWASP LLM Top 10, las tácticas y técnicas de MITRE ATLAS y los controles del
+                NIST AI RMF. Se asigna un identificador único (<code>VAI-YYYY-NNN</code>) para
+                facilitar la referenciación cruzada.
+              </p>
+            </div>
+          </div>
+
+          <div class="process-step reveal reveal--delay-2">
+            <div class="process-step__num" aria-hidden="true">02</div>
+            <div class="process-step__body">
+              <h3 class="process-step__title">Puntuación CVSS</h3>
+              <p class="process-step__text">
+                Se aplica CVSS v3.1 adaptado al contexto de sistemas IA. Las métricas base
+                (vector de ataque, complejidad, privilegios, interacción) se complementan
+                con el impacto en confidencialidad, integridad y disponibilidad del sistema LLM.
+                Los umbrales de severidad son: Crítica ≥ 9.0, Alta ≥ 7.0, Media ≥ 4.0, Baja &lt; 4.0.
+              </p>
+            </div>
+          </div>
+
+          <div class="process-step reveal reveal--delay-3">
+            <div class="process-step__num" aria-hidden="true">03</div>
+            <div class="process-step__body">
+              <h3 class="process-step__title">Perfil de riesgo por modelo</h3>
+              <p class="process-step__text">
+                Para cada par (vulnerabilidad, modelo LLM) se evalúa la susceptibilidad
+                en tres niveles: <strong>high</strong> (alta probabilidad de éxito del ataque),
+                <strong>medium</strong> (mitigaciones parciales) y <strong>low</strong>
+                (controles robustos implementados). Se incluyen notas específicas por combinación.
+              </p>
+            </div>
+          </div>
+
+          <div class="process-step reveal reveal--delay-4">
+            <div class="process-step__num" aria-hidden="true">04</div>
+            <div class="process-step__body">
+              <h3 class="process-step__title">Documentación y snippets</h3>
+              <p class="process-step__text">
+                Cada entrada incluye descripción completa, ejemplos reales de ataque,
+                estrategias de mitigación clasificadas por tipo (preventiva, detectiva,
+                correctiva) y snippets de código en Python o JavaScript que ilustran
+                tanto el vector de ataque como la defensa recomendada.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Estándares de referencia -->
+    <section class="about-section about-section--alt" aria-labelledby="estandares-title">
+      <div class="container">
+        <div class="about-section__head reveal">
+          <span class="about-section__label">Estándares</span>
+          <h2 class="about-section__title" id="estandares-title">Marcos de referencia</h2>
+        </div>
+
+        <div class="standards-grid">
+
+          <div class="std-detail-card reveal reveal--delay-1">
+            <div class="std-detail-card__header">
+              <div class="std-detail-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="std-detail-card__name">OWASP LLM Top 10</div>
+                <div class="std-detail-card__version">v2025 — 10 categorías</div>
+              </div>
+            </div>
+            <p class="std-detail-card__desc">
+              El estándar primario de clasificación. Define las 10 categorías de riesgo
+              más críticas para aplicaciones basadas en Large Language Models, con
+              descripción de vectores de ataque, impactos y controles. VulnerAI mapea
+              cada vulnerabilidad a su categoría OWASP correspondiente (LLM01–LLM10).
+            </p>
+            <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/"
+               target="_blank" rel="noopener noreferrer" class="std-detail-card__link">
+              Ver estándar →
+            </a>
+          </div>
+
+          <div class="std-detail-card reveal reveal--delay-2">
+            <div class="std-detail-card__header">
+              <div class="std-detail-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 8v4l3 3"/>
+                </svg>
+              </div>
+              <div>
+                <div class="std-detail-card__name">MITRE ATLAS</div>
+                <div class="std-detail-card__version">v4.7.0 — Tácticas y técnicas ML</div>
+              </div>
+            </div>
+            <p class="std-detail-card__desc">
+              Matriz de adversarios para sistemas de IA y ML. Organiza las técnicas de
+              ataque en tácticas (Reconnaissance, ML Attack Staging, Exfiltration…)
+              permitiendo un análisis estructurado de las cadenas de ataque. VulnerAI
+              referencia las técnicas ATLAS relevantes en cada vulnerabilidad.
+            </p>
+            <a href="https://atlas.mitre.org/" target="_blank" rel="noopener noreferrer"
+               class="std-detail-card__link">
+              Ver estándar →
+            </a>
+          </div>
+
+          <div class="std-detail-card reveal reveal--delay-3">
+            <div class="std-detail-card__header">
+              <div class="std-detail-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <path d="M3 9h18M9 21V9"/>
+                </svg>
+              </div>
+              <div>
+                <div class="std-detail-card__name">NIST AI RMF</div>
+                <div class="std-detail-card__version">v1.0 — 4 funciones, 72 controles</div>
+              </div>
+            </div>
+            <p class="std-detail-card__desc">
+              Marco de gestión de riesgos en IA del NIST. Organiza los controles en cuatro
+              funciones: Govern, Map, Measure y Manage. VulnerAI utiliza las subcategorías
+              del NIST AI RMF como complemento para la clasificación de medidas de
+              mitigación estructuradas.
+            </p>
+            <a href="https://www.nist.gov/system/files/documents/2023/01/26/AI%20RMF%201.0.pdf"
+               target="_blank" rel="noopener noreferrer" class="std-detail-card__link">
+              Ver estándar →
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Puntuación de riesgo -->
+    <section class="about-section" aria-labelledby="scoring-title">
+      <div class="container">
+        <div class="about-section__head reveal">
+          <span class="about-section__label">Métricas</span>
+          <h2 class="about-section__title" id="scoring-title">Puntuación de riesgo por modelo</h2>
+        </div>
+
+        <div class="scoring-layout reveal reveal--delay-1">
+          <div class="scoring-desc">
+            <p>
+              Además del CVSS por vulnerabilidad, VulnerAI asigna a cada modelo LLM un
+              <strong>overall_risk_score</strong> calculado como media ponderada de su
+              susceptibilidad frente al conjunto de vulnerabilidades catalogadas.
+            </p>
+            <p style="margin-top:var(--space-4)">
+              La evaluación se basa en evidencia documentada, pruebas de concepto publicadas
+              y análisis de capacidades de seguridad de cada arquitectura, ponderando tanto
+              la frecuencia de explotación como la severidad del impacto potencial.
+            </p>
+          </div>
+          <div class="scoring-legend">
+            <div class="scoring-legend__row">
+              <span class="scoring-legend__bar scoring-legend__bar--critical"></span>
+              <span class="scoring-legend__label">Risk ≥ 8.0 — Riesgo crítico</span>
+            </div>
+            <div class="scoring-legend__row">
+              <span class="scoring-legend__bar scoring-legend__bar--high"></span>
+              <span class="scoring-legend__label">Risk 6.5–7.9 — Riesgo alto</span>
+            </div>
+            <div class="scoring-legend__row">
+              <span class="scoring-legend__bar scoring-legend__bar--medium"></span>
+              <span class="scoring-legend__label">Risk 4.0–6.4 — Riesgo medio</span>
+            </div>
+            <div class="scoring-legend__row">
+              <span class="scoring-legend__bar scoring-legend__bar--low"></span>
+              <span class="scoring-legend__label">Risk &lt; 4.0 — Riesgo bajo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Créditos -->
+    <section class="about-section about-section--alt" id="creditos" aria-labelledby="creditos-title">
+      <div class="container">
+        <div class="about-section__head reveal">
+          <span class="about-section__label">Créditos</span>
+          <h2 class="about-section__title" id="creditos-title">Proyecto académico</h2>
+        </div>
+
+        <div class="credits-card reveal reveal--delay-1">
+          <div class="credits-card__body">
+            <div class="credits-card__row">
+              <span class="credits-card__key">Autores</span>
+              <span class="credits-card__val">Samuel Muñoz Millán &amp; Carlos Alberto Ruiz Blanco</span>
+            </div>
+            <div class="credits-card__row">
+              <span class="credits-card__key">Institución</span>
+              <span class="credits-card__val">Universidad de Jaén</span>
+            </div>
+            <div class="credits-card__row">
+              <span class="credits-card__key">Titulación</span>
+              <span class="credits-card__val">Grado en Ingeniería Informática</span>
+            </div>
+            <div class="credits-card__row">
+              <span class="credits-card__key">Asignatura</span>
+              <span class="credits-card__val">Sistemas de Información Basados en Web</span>
+            </div>
+            <div class="credits-card__row">
+              <span class="credits-card__key">Propósito</span>
+              <span class="credits-card__val">
+                Proyecto académico. Contenido exclusivamente educativo.
+                No usar para actividades no autorizadas.
+              </span>
+            </div>
+          </div>
+          <div class="credits-card__actions">
+            <a href="vulnerabilities.html" class="btn btn--primary btn--sm">Explorar catálogo</a>
+            <a href="comparator.html" class="btn btn--secondary btn--sm">Comparador de modelos</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div data-component="footer"></div>
+
+  <script type="module" src="assets/js/components.js"></script>
+  <script src="assets/js/cookie-consent.js"></script>
+</body>
+</html>

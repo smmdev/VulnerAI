@@ -1,0 +1,375 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <title>VulnerAI — Diccionario de Ataques y Mitigaciones para LLMs</title>
+  <meta name="description" content="Referencia técnica de las 10 vulnerabilidades críticas en aplicaciones basadas en modelos de lenguaje. Alineado con OWASP LLM Top 10, MITRE ATLAS y NIST AI RMF." />
+  <meta name="author" content="Samuel Muñoz Millán" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/index.css" />
+  <script src="assets/js/theme.js"></script>
+  <script defer src="assets/js/reveal.js"></script>
+</head>
+<body class="page-wrapper">
+
+  <div class="reading-progress" id="reading-progress" role="progressbar"
+       aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progreso de lectura"></div>
+
+  <div data-component="header"></div>
+
+  <main class="page-main" id="main-content">
+
+    <!-- ══════════════════════════════════════════════════════════════
+         HERO — Asymmetric layout
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__noise" aria-hidden="true"></div>
+
+      <div class="container">
+        <div class="hero__inner">
+
+          <!-- Left column: content -->
+          <div class="hero__content">
+            <div class="hero__eyebrow">
+              <span class="hero__eyebrow-dot" aria-hidden="true"></span>
+              <span class="hero__eyebrow-text">OWASP LLM Top 10 · MITRE ATLAS · NIST AI RMF</span>
+            </div>
+
+            <h1 class="hero__title" id="hero-title">
+              Diccionario operativo de<br />
+              <em class="hero__title-accent">ataques y mitigaciones</em><br />
+              para LLMs
+            </h1>
+
+            <p class="hero__subtitle">
+              Referencia técnica de las vulnerabilidades críticas en aplicaciones
+              basadas en modelos de lenguaje. Vectores de ataque, mitigaciones
+              y snippets de código listos para usar.
+            </p>
+
+            <div class="hero__actions">
+              <a href="vulnerabilities.html" class="btn btn--primary btn--lg">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                     stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="3" width="7" height="7" rx="1"/>
+                  <rect x="14" y="3" width="7" height="7" rx="1"/>
+                  <rect x="14" y="14" width="7" height="7" rx="1"/>
+                  <rect x="3" y="14" width="7" height="7" rx="1"/>
+                </svg>
+                Explorar catálogo
+              </a>
+              <a href="#destacadas" class="btn btn--secondary btn--lg">Ver destacadas</a>
+            </div>
+
+            <!-- Stats -->
+            <div class="hero__stats" aria-label="Estadísticas">
+              <div class="hero__stat">
+                <span class="hero__stat-number" data-target="10" aria-label="10">0</span>
+                <span class="hero__stat-label">Vulnerabilidades</span>
+              </div>
+              <div class="hero__stat">
+                <span class="hero__stat-number" data-target="3" aria-label="3">0</span>
+                <span class="hero__stat-label">Estándares</span>
+              </div>
+              <div class="hero__stat">
+                <span class="hero__stat-number" data-target="4" aria-label="4">0</span>
+                <span class="hero__stat-label">Modelos analizados</span>
+              </div>
+              <div class="hero__stat">
+                <span class="hero__stat-number" data-target="8" aria-label="8">0</span>
+                <span class="hero__stat-label">Snippets de código</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right column: decorative terminal -->
+          <div class="hero__terminal" aria-hidden="true">
+            <div class="hero__terminal-bar">
+              <span class="hero__terminal-dot hero__terminal-dot--red"></span>
+              <span class="hero__terminal-dot hero__terminal-dot--yellow"></span>
+              <span class="hero__terminal-dot hero__terminal-dot--green"></span>
+              <span class="hero__terminal-title">threat-scan.sh</span>
+            </div>
+            <div class="hero__terminal-body">
+              <div class="hero__terminal-line">
+                <span class="t-prompt">$</span>
+                <span class="t-cmd"> vulnerai scan --all</span>
+              </div>
+              <div class="hero__terminal-line t-comment">
+                # Iniciando análisis de superficie de ataque…
+              </div>
+              <div class="hero__terminal-spacer"></div>
+              <div class="hero__terminal-line">
+                <span class="t-label">VAI-2026-002</span>
+                <span class="t-sev t-sev--critical">CRÍTICA 9.4</span>
+              </div>
+              <div class="hero__terminal-line t-sub">Prompt Injection Indirecta</div>
+              <div class="hero__terminal-spacer"></div>
+              <div class="hero__terminal-line">
+                <span class="t-label">VAI-2026-001</span>
+                <span class="t-sev t-sev--critical">CRÍTICA 9.1</span>
+              </div>
+              <div class="hero__terminal-line t-sub">Prompt Injection Directa</div>
+              <div class="hero__terminal-spacer"></div>
+              <div class="hero__terminal-line">
+                <span class="t-label">VAI-2026-005</span>
+                <span class="t-sev t-sev--high">ALTA 8.8</span>
+              </div>
+              <div class="hero__terminal-line t-sub">Manejo Inadecuado de Output</div>
+              <div class="hero__terminal-spacer"></div>
+              <div class="hero__terminal-line">
+                <span class="t-label">VAI-2026-004</span>
+                <span class="t-sev t-sev--high">ALTA 8.2</span>
+              </div>
+              <div class="hero__terminal-line t-sub">Envenenamiento de Datos</div>
+              <div class="hero__terminal-spacer"></div>
+              <div class="hero__terminal-line">
+                <span class="t-label">VAI-2026-006</span>
+                <span class="t-sev t-sev--high">ALTA 8.1</span>
+              </div>
+              <div class="hero__terminal-line t-sub">Agencia Excesiva</div>
+              <div class="hero__terminal-spacer"></div>
+              <div class="hero__terminal-line t-comment" id="terminal-more-line">
+                # + <span id="terminal-more-count">5</span> vulnerabilidades adicionales detectadas
+              </div>
+              <div class="hero__terminal-spacer"></div>
+              <div class="hero__terminal-line">
+                <span class="t-prompt">$</span>
+                <span class="t-cmd"> _</span>
+                <span class="hero__cursor"></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SEARCH + PILARES
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="home-search-section" aria-label="Buscar y explorar VulnerAI">
+      <div class="container">
+
+        <form class="home-search__form reveal" role="search" id="home-search-form">
+          <div class="home-search__input-wrap">
+            <svg class="home-search__icon" width="18" height="18" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="search" class="home-search__input" id="home-search-input"
+                   placeholder="Buscar vulnerabilidades, CVEs o nombres..."
+                   aria-label="Buscar vulnerabilidades en VulnerAI" />
+          </div>
+          <button type="submit" class="btn btn--primary home-search__btn">Buscar</button>
+        </form>
+
+        <div class="home-pillars" role="list">
+
+          <a href="vulnerabilities.html" class="home-pillar reveal reveal--delay-1" role="listitem">
+            <div class="home-pillar__icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <h3 class="home-pillar__title">Auditar</h3>
+            <p class="home-pillar__desc">Evalúa la exposición de tus modelos LLM frente a los vectores de ataque más críticos.</p>
+          </a>
+
+          <a href="snippets.html" class="home-pillar reveal reveal--delay-2" role="listitem">
+            <div class="home-pillar__icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+              </svg>
+            </div>
+            <h3 class="home-pillar__title">Mitigar</h3>
+            <p class="home-pillar__desc">Accede a mitigaciones técnicas y snippets de código listos para implementar en producción.</p>
+          </a>
+
+          <a href="about.html" class="home-pillar reveal reveal--delay-3" role="listitem">
+            <div class="home-pillar__icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+              </svg>
+            </div>
+            <h3 class="home-pillar__title">Aprender</h3>
+            <p class="home-pillar__desc">Comprende OWASP LLM Top 10, MITRE ATLAS y NIST AI RMF con ejemplos y referencias reales.</p>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         CATEGORÍAS OWASP
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="categories-strip reveal" aria-label="Filtrar por categoría OWASP">
+      <div class="container">
+        <div class="categories-strip__inner">
+          <p class="categories-strip__label">Categorías OWASP LLM Top 10</p>
+          <div class="categories-strip__track" id="categories-track" role="list">
+            <span class="skeleton-chip skeleton" aria-hidden="true" style="width:130px"></span>
+            <span class="skeleton-chip skeleton" aria-hidden="true" style="width:190px"></span>
+            <span class="skeleton-chip skeleton" aria-hidden="true" style="width:105px"></span>
+            <span class="skeleton-chip skeleton" aria-hidden="true" style="width:160px"></span>
+            <span class="skeleton-chip skeleton" aria-hidden="true" style="width:140px"></span>
+            <span class="skeleton-chip skeleton" aria-hidden="true" style="width:115px"></span>
+            <span class="skeleton-chip skeleton" aria-hidden="true" style="width:180px"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         VULNERABILIDADES DESTACADAS
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="section" id="destacadas" aria-labelledby="vuln-section-title">
+      <div class="container">
+        <div class="section__header--between reveal">
+          <div>
+            <span class="section__label">Ordenadas por CVSS</span>
+            <h2 class="section__title" id="vuln-section-title">Vulnerabilidades destacadas</h2>
+            <p class="section__subtitle">Las 6 amenazas más críticas según puntuación CVSS 3.1</p>
+          </div>
+          <a href="vulnerabilities.html" class="btn btn--secondary btn--sm"
+             aria-label="Ver todas las vulnerabilidades">Ver todas →</a>
+        </div>
+
+        <div class="cards-grid" id="vuln-grid" aria-live="polite" aria-busy="true">
+          <!-- Skeletons -->
+          <div class="skeleton-card" aria-hidden="true">
+            <div class="skeleton-card__badge skeleton"></div>
+            <div class="skeleton-card__title skeleton"></div>
+            <div class="skeleton-card__line skeleton"></div>
+            <div class="skeleton-card__line skeleton-card__line--short skeleton"></div>
+            <div class="skeleton-card__footer">
+              <div class="skeleton-card__footer-left skeleton"></div>
+              <div class="skeleton-card__footer-right skeleton"></div>
+            </div>
+          </div>
+          <div class="skeleton-card" aria-hidden="true">
+            <div class="skeleton-card__badge skeleton"></div>
+            <div class="skeleton-card__title skeleton"></div>
+            <div class="skeleton-card__line skeleton"></div>
+            <div class="skeleton-card__line skeleton-card__line--short skeleton"></div>
+            <div class="skeleton-card__footer">
+              <div class="skeleton-card__footer-left skeleton"></div>
+              <div class="skeleton-card__footer-right skeleton"></div>
+            </div>
+          </div>
+          <div class="skeleton-card" aria-hidden="true">
+            <div class="skeleton-card__badge skeleton"></div>
+            <div class="skeleton-card__title skeleton"></div>
+            <div class="skeleton-card__line skeleton"></div>
+            <div class="skeleton-card__line skeleton-card__line--short skeleton"></div>
+            <div class="skeleton-card__footer">
+              <div class="skeleton-card__footer-left skeleton"></div>
+              <div class="skeleton-card__footer-right skeleton"></div>
+            </div>
+          </div>
+          <div class="skeleton-card" aria-hidden="true">
+            <div class="skeleton-card__badge skeleton"></div>
+            <div class="skeleton-card__title skeleton"></div>
+            <div class="skeleton-card__line skeleton"></div>
+            <div class="skeleton-card__line skeleton-card__line--short skeleton"></div>
+            <div class="skeleton-card__footer">
+              <div class="skeleton-card__footer-left skeleton"></div>
+              <div class="skeleton-card__footer-right skeleton"></div>
+            </div>
+          </div>
+          <div class="skeleton-card" aria-hidden="true">
+            <div class="skeleton-card__badge skeleton"></div>
+            <div class="skeleton-card__title skeleton"></div>
+            <div class="skeleton-card__line skeleton"></div>
+            <div class="skeleton-card__line skeleton-card__line--short skeleton"></div>
+            <div class="skeleton-card__footer">
+              <div class="skeleton-card__footer-left skeleton"></div>
+              <div class="skeleton-card__footer-right skeleton"></div>
+            </div>
+          </div>
+          <div class="skeleton-card" aria-hidden="true">
+            <div class="skeleton-card__badge skeleton"></div>
+            <div class="skeleton-card__title skeleton"></div>
+            <div class="skeleton-card__line skeleton"></div>
+            <div class="skeleton-card__line skeleton-card__line--short skeleton"></div>
+            <div class="skeleton-card__footer">
+              <div class="skeleton-card__footer-left skeleton"></div>
+              <div class="skeleton-card__footer-right skeleton"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         ESTÁNDARES DE REFERENCIA
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="section standards-section reveal" aria-labelledby="standards-title">
+      <div class="container">
+        <span class="section__label">Marco de referencia</span>
+        <h2 class="section__title" id="standards-title">Estándares alineados</h2>
+        <p class="section__subtitle">
+          Cada vulnerabilidad está mapeada a los principales marcos de seguridad para IA.
+        </p>
+        <div class="cols-3 standards-grid" id="standards-grid" aria-live="polite">
+          <!-- Renderizado por index.js -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div data-component="footer"></div>
+
+  <script type="module" src="assets/js/components.js"></script>
+  <script type="module" src="assets/js/index.js"></script>
+  <script src="assets/js/cookie-consent.js"></script>
+
+  <script>
+    // Burger menu
+    const burger = document.getElementById('burger-btn');
+    const menu   = document.getElementById('mobile-menu');
+    if (burger && menu) {
+      burger.addEventListener('click', () => {
+        const open = menu.classList.toggle('is-open');
+        burger.setAttribute('aria-expanded', String(open));
+        menu.setAttribute('aria-hidden',    String(!open));
+      });
+    }
+
+    // Reading progress
+    (function() {
+      const bar = document.getElementById('reading-progress');
+      if (!bar) return;
+      window.addEventListener('scroll', () => {
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - doc.clientHeight;
+        const pct = max > 0 ? (doc.scrollTop / max) * 100 : 0;
+        bar.style.width = pct + '%';
+      }, { passive: true });
+    })();
+
+    // Home search → catalog with ?q=
+    document.getElementById('home-search-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const q = document.getElementById('home-search-input').value.trim();
+      window.location.href = q ? 'vulnerabilities.html?q=' + encodeURIComponent(q) : 'vulnerabilities.html';
+    });
+  </script>
+</body>
+</html>

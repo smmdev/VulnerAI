@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <title>VulnerAI — Snippets de Código</title>
+  <meta name="description" content="Explora snippets de código educativos que ilustran vectores de ataque y mitigaciones en modelos LLM. Ejemplos reales con explicaciones técnicas." />
+  <meta name="author" content="Samuel Muñoz Millán" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/snippets.css" />
+  <script src="assets/js/theme.js"></script>
+  <script defer src="assets/js/reveal.js"></script>
+</head>
+<body class="page-wrapper">
+
+  <div data-component="header"></div>
+
+  <main class="page-main" id="main-content">
+
+    <header class="generator-header">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="index.html">Inicio</a>
+          <span class="breadcrumbs__sep">/</span>
+          <span class="breadcrumbs__current">Snippets</span>
+        </nav>
+        <span class="generator-header__label" style="margin-top:var(--space-4);display:block">
+          Snippets de código
+        </span>
+        <h1 class="generator-header__title">Snippets de vulnerabilidades LLM</h1>
+        <p class="generator-header__desc">
+          Explora fragmentos de código reales que ilustran cómo se explotan y mitigan
+          las vulnerabilidades en modelos LLM. Selecciona la vulnerabilidad, elige entre
+          vector de ataque o defensa, y analiza el código con su explicación técnica.
+        </p>
+      </div>
+    </header>
+
+    <div class="generator-body">
+      <div class="container">
+        <div class="generator-layout">
+
+          <!-- Panel de configuración -->
+          <aside aria-label="Configuración del generador">
+            <div class="config-panel reveal">
+              <div class="config-panel__head">
+                <span class="config-panel__head-dot" aria-hidden="true"></span>
+                <span class="config-panel__title">Configuración</span>
+              </div>
+              <div class="config-panel__body">
+
+                <div class="field">
+                  <label class="field__label" for="vuln-select">Vulnerabilidad</label>
+                  <div class="field__select-wrap">
+                    <select class="field__select" id="vuln-select" aria-label="Seleccionar vulnerabilidad">
+                      <option value="">Cargando…</option>
+                    </select>
+                  </div>
+                  <span class="field__hint">
+                    Las vulnerabilidades se ordenan por puntuación CVSS descendente.
+                  </span>
+                </div>
+
+                <div class="field">
+                  <span class="field__label">Tipo de snippet</span>
+                  <div class="type-toggle" role="group" aria-label="Tipo de snippet">
+                    <button class="type-toggle__btn type-toggle__btn--attack is-active"
+                            data-type="attack" aria-pressed="true">
+                      ⚠ Ataque
+                    </button>
+                    <button class="type-toggle__btn"
+                            data-type="defense" aria-pressed="false">
+                      ✓ Defensa
+                    </button>
+                  </div>
+                  <span class="field__hint">
+                    Los snippets de ataque ilustran el vector; los de defensa muestran la mitigación.
+                  </span>
+                </div>
+
+                <div class="edu-notice" role="note">
+                  <span class="edu-notice__icon" aria-hidden="true">⚑</span>
+                  <span>
+                    Contenido exclusivamente educativo. No usar para actividades no
+                    autorizadas. Los ejemplos están diseñados para entornos de laboratorio.
+                  </span>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Info de la vulnerabilidad seleccionada -->
+            <div id="vuln-info" hidden
+                 style="margin-top:var(--space-4);background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-5)">
+            </div>
+          </aside>
+
+          <!-- Panel de salida -->
+          <section class="output-panel reveal reveal--delay-1" aria-label="Snippet generado" aria-live="polite" aria-atomic="true">
+            <div id="output-area"></div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div data-component="footer"></div>
+
+  <script type="module" src="assets/js/components.js"></script>
+  <script type="module" src="assets/js/snippets.js"></script>
+  <script src="assets/js/cookie-consent.js"></script>
+</body>
+</html>

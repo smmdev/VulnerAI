@@ -1,0 +1,15 @@
+.DS_Store
+Thumbs.db
+
+# Playwright screenshots & logs
+.playwright-mcp/
+
+# Screenshots de documentación (no son assets de la web)
+*.png
+
+# Supabase CLI local state
+supabase/.temp/
+
+# Editor
+.vscode/
+.idea/

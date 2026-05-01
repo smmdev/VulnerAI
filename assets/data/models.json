@@ -1,0 +1,1090 @@
+{
+  "version": "1.1.0",
+  "updated": "2026-05-03",
+  "models": [
+    {
+      "id": "gpt-4o",
+      "name": "GPT-4o",
+      "provider": "OpenAI",
+      "release_year": 2024,
+      "architecture": "Transformer decoder (MoE)",
+      "context_window": 128000,
+      "multimodal": true,
+      "open_source": false,
+      "vulnerability_profile": {
+        "VAI-2026-001": {
+          "susceptibility": "high",
+          "notes": "Sin guardrails en llamadas API directas. Vulnerable a role-switching sin moderación adicional."
+        },
+        "VAI-2026-002": {
+          "susceptibility": "high",
+          "notes": "Agentes con tools son especialmente susceptibles a inyección en contenido externo."
+        },
+        "VAI-2026-003": {
+          "susceptibility": "medium",
+          "notes": "Moderación integrada reduce riesgo de fuga de PII, pero el system prompt puede extraerse."
+        },
+        "VAI-2026-004": {
+          "susceptibility": "medium",
+          "notes": "Modelo propietario: acceso limitado al pipeline de entrenamiento reduce el vector."
+        },
+        "VAI-2026-005": {
+          "susceptibility": "high",
+          "notes": "Genera HTML y código sin restricciones si la aplicación no sanitiza el output."
+        },
+        "VAI-2026-006": {
+          "susceptibility": "high",
+          "notes": "GPT-4o con tools actúa con alta autonomía por defecto sin confirmación humana."
+        },
+        "VAI-2026-007": {
+          "susceptibility": "medium",
+          "notes": "Con presión suficiente puede revelar fragmentos del system prompt."
+        },
+        "VAI-2026-008": {
+          "susceptibility": "medium",
+          "notes": "Tasa de alucinación reducida respecto a modelos anteriores pero no eliminada."
+        },
+        "VAI-2026-009": {
+          "susceptibility": "high",
+          "notes": "API sin rate limiting propio; depende de la configuración del cliente."
+        },
+        "VAI-2026-010": {
+          "susceptibility": "medium",
+          "notes": "Los filtros de OpenAI detectan jailbreaks comunes pero no todos los narrativos avanzados."
+        },
+        "VAI-2026-011": {
+          "susceptibility": "medium",
+          "notes": "API sin limit estricto de diversidad de queries; el modelo es suficientemente expresivo para construir un surrogate útil."
+        },
+        "VAI-2026-012": {
+          "susceptibility": "medium",
+          "notes": "Técnicas de reducción de memorización aplicadas, pero sin privacidad diferencial formal publicada."
+        },
+        "VAI-2026-014": {
+          "susceptibility": "high",
+          "notes": "Integra el contenido recuperado con alta fidelidad; documentos envenenados se convierten en instrucciones efectivas."
+        },
+        "VAI-2026-015": {
+          "susceptibility": "high",
+          "notes": "Ventana de 128K tokens; el system prompt pierde atención efectiva ante inputs de gran tamaño."
+        },
+        "VAI-2026-016": {
+          "susceptibility": "medium",
+          "notes": "Los filtros de OpenAI evalúan el contexto conversacional parcialmente; superables con escalada gradual avanzada."
+        },
+        "VAI-2026-017": {
+          "susceptibility": "high",
+          "notes": "Function calling nativo sin confirmación humana por defecto para acciones de herramientas de alto impacto."
+        },
+        "VAI-2026-018": {
+          "susceptibility": "medium",
+          "notes": "El tokenizador normaliza algunos caracteres Unicode, pero payloads Base64 y homoglyphs avanzados evaden filtros."
+        },
+        "VAI-2026-019": {
+          "susceptibility": "medium",
+          "notes": "El módulo de visión tiene cierta robustez, pero es susceptible a inyección por texto oculto en imágenes."
+        },
+        "VAI-2026-020": {
+          "susceptibility": "high",
+          "notes": "Capacidad de generación muy convincente; produce phishing personalizado de alta calidad con poca fricción."
+        },
+        "VAI-2026-021": {
+          "susceptibility": "medium",
+          "notes": "OpenAI ha aplicado debiasing en RLHF, pero sesgos sutiles persisten ante framing adversarial."
+        },
+        "VAI-2026-022": {
+          "susceptibility": "medium",
+          "notes": "OpenAI no revela detalles del modelo, pero el comportamiento diferencial permite inferir la versión."
+        },
+        "VAI-2026-023": {
+          "susceptibility": "medium",
+          "notes": "La API permite configurar parámetros; el modelo tiene cierta robustez a temperatura extrema."
+        },
+        "VAI-2026-024": {
+          "susceptibility": "medium",
+          "notes": "Con presión conversacional puede revelar fragmentos del system prompt; controles de OpenAI son parciales."
+        },
+        "VAI-2026-025": {
+          "susceptibility": "medium",
+          "notes": "Genera código funcional con cierta verificación de patrones de seguridad conocidos."
+        },
+        "VAI-2026-026": {
+          "susceptibility": "medium",
+          "notes": "Tasa de alucinación reducida, pero puede fabricar citas y estadísticas con apariencia autoritativa."
+        },
+        "VAI-2026-027": {
+          "susceptibility": "high",
+          "notes": "Procesa documentos con alta fidelidad; instrucciones en documentos pueden confundirse con las del sistema."
+        },
+        "VAI-2026-028": {
+          "susceptibility": "high",
+          "notes": "Sin rate limiting granular propio a nivel de tokens por usuario; depende de la configuración del operador."
+        },
+        "VAI-2026-029": {
+          "susceptibility": "medium",
+          "notes": "OpenAI detecta reencuadramientos comunes, pero técnicas avanzadas de framing histórico o académico los evaden."
+        },
+        "VAI-2026-030": {
+          "susceptibility": "medium",
+          "notes": "Puede inferir información sensible de secuencias de preguntas sin controles de contexto acumulativo."
+        },
+        "VAI-2026-031": {
+          "susceptibility": "high",
+          "notes": "El módulo de visión extrae texto de imágenes con alta fidelidad, incluyendo texto de bajo contraste."
+        },
+        "VAI-2026-032": {
+          "susceptibility": "high",
+          "notes": "La memoria conversacional de ChatGPT puede ser manipulada sin autenticación criptográfica de entradas."
+        },
+        "VAI-2026-033": {
+          "susceptibility": "high",
+          "notes": "El ecosistema de plugins de ChatGPT tiene acceso a herramientas de alto impacto con validación insuficiente."
+        },
+        "VAI-2026-034": {
+          "susceptibility": "medium",
+          "notes": "Los embeddings de OpenAI tienen cierta resistencia a inversión, pero RAG con acceso a vectores son vulnerables."
+        },
+        "VAI-2026-036": {
+          "susceptibility": "high",
+          "notes": "API keys son el único mecanismo de autenticación; una key expuesta permite acceso completo sin fricción."
+        },
+        "VAI-2026-037": {
+          "susceptibility": "medium",
+          "notes": "Los filtros de OpenAI detectan técnicas de roleplay documentadas, pero nuevas variantes son efectivas."
+        },
+        "VAI-2026-038": {
+          "susceptibility": "high",
+          "notes": "El aislamiento de contexto en implementaciones Enterprise depende de la configuración del operador."
+        },
+        "VAI-2026-039": {
+          "susceptibility": "medium",
+          "notes": "JSON mode fuerza el schema pero no sanitiza los valores de texto libre generados por el modelo."
+        },
+        "VAI-2026-040": {
+          "susceptibility": "high",
+          "notes": "Code Interpreter de ChatGPT tiene acceso al sistema de archivos y puede ejecutar código arbitrario en el entorno."
+        },
+        "VAI-2026-041": {
+          "susceptibility": "medium",
+          "notes": "OpenAI evalúa el contexto conversacional parcialmente; la fragmentación sofisticada puede evadir los controles."
+        },
+        "VAI-2026-042": {
+          "susceptibility": "high",
+          "notes": "Los modelos con razonamiento explícito (o1/o1-preview) son especialmente susceptibles a manipulación del CoT."
+        },
+        "VAI-2026-043": {
+          "susceptibility": "high",
+          "notes": "Los sistemas multi-agente basados en GPT-4o típicamente no autentican mensajes entre agentes."
+        },
+        "VAI-2026-044": {
+          "susceptibility": "high",
+          "notes": "Capacidad de generación de alta calidad; puede generar contenido sintético convincente a escala sin fricción."
+        },
+        "VAI-2026-045": {
+          "susceptibility": "medium",
+          "notes": "Los filtros de OpenAI aplican umbrales parcialmente uniformes, con algunas excepciones por contexto profesional."
+        },
+        "VAI-2026-047": {
+          "susceptibility": "medium",
+          "notes": "GPT-4o Audio es susceptible a comandos adversariales si el filtrado espectral no está en el pipeline ASR."
+        },
+        "VAI-2026-048": {
+          "susceptibility": "medium",
+          "notes": "GPT-4o puede reproducir sesgos históricos en decisiones de alto impacto sin auditoría de equidad."
+        },
+        "VAI-2026-049": {
+          "susceptibility": "high",
+          "notes": "Con 128K tokens es susceptible al fenómeno lost in the middle; las instrucciones al inicio pierden atención."
+        },
+        "VAI-2026-050": {
+          "susceptibility": "high",
+          "notes": "Los sistemas agénticos basados en GPT-4o operan con alta autonomía sin verificación de alineación integrada."
+        }
+      },
+      "overall_risk_score": 7.4,
+      "last_assessed": "2026-04-01"
+    },
+    {
+      "id": "claude-3-5-sonnet",
+      "name": "Claude 3.5 Sonnet",
+      "provider": "Anthropic",
+      "release_year": 2024,
+      "architecture": "Transformer decoder (Constitutional AI + RLHF)",
+      "context_window": 200000,
+      "multimodal": true,
+      "open_source": false,
+      "vulnerability_profile": {
+        "VAI-2026-001": {
+          "susceptibility": "medium",
+          "notes": "Constitutional AI ofrece mayor resistencia a prompt injection que modelos sin RLHF especializado."
+        },
+        "VAI-2026-002": {
+          "susceptibility": "high",
+          "notes": "En arquitecturas agenticas sigue siendo vulnerable a inyección en contenido externo no confiable."
+        },
+        "VAI-2026-003": {
+          "susceptibility": "low",
+          "notes": "Anthropic entrena explícitamente para rechazar revelar el system prompt."
+        },
+        "VAI-2026-004": {
+          "susceptibility": "low",
+          "notes": "Modelo propietario con auditoría interna del pipeline de entrenamiento."
+        },
+        "VAI-2026-005": {
+          "susceptibility": "high",
+          "notes": "El modelo genera código y HTML sin restricciones; la responsabilidad recae en la aplicación."
+        },
+        "VAI-2026-006": {
+          "susceptibility": "medium",
+          "notes": "Claude tiende a ser más conservador en acciones autónomas pero puede ser manipulado."
+        },
+        "VAI-2026-007": {
+          "susceptibility": "low",
+          "notes": "Entrenado específicamente para no revelar instrucciones del sistema."
+        },
+        "VAI-2026-008": {
+          "susceptibility": "medium",
+          "notes": "Menor tasa de alucinación que la media pero no inmune en dominios especializados."
+        },
+        "VAI-2026-009": {
+          "susceptibility": "high",
+          "notes": "API sin rate limiting propio; depende de la configuración del cliente."
+        },
+        "VAI-2026-010": {
+          "susceptibility": "low",
+          "notes": "Constitutional AI incluye ejemplos de jailbreak narrativo en el entrenamiento."
+        },
+        "VAI-2026-011": {
+          "susceptibility": "medium",
+          "notes": "Anthropic aplica rate limiting robusto, pero el modelo representa un objetivo de alto valor para la extracción."
+        },
+        "VAI-2026-014": {
+          "susceptibility": "medium",
+          "notes": "Tiende a citar fuentes y expresar incertidumbre, mitigando parcialmente el impacto de documentos envenenados."
+        },
+        "VAI-2026-015": {
+          "susceptibility": "medium",
+          "notes": "Mejor retención de instrucciones del sistema a lo largo del contexto que otros modelos equivalentes."
+        },
+        "VAI-2026-016": {
+          "susceptibility": "low",
+          "notes": "Anthropic ha implementado evaluación de seguridad con perspectiva global de la conversación."
+        },
+        "VAI-2026-017": {
+          "susceptibility": "medium",
+          "notes": "Anthropic ha implementado salvaguardas en el uso de herramientas, aunque no son infalibles en pipelines complejos."
+        },
+        "VAI-2026-018": {
+          "susceptibility": "medium",
+          "notes": "Aplica cierta normalización de texto, pero codificaciones anidadas pueden evadir los controles de seguridad."
+        },
+        "VAI-2026-019": {
+          "susceptibility": "medium",
+          "notes": "Aplica controles de visión adicionales, pero es susceptible a texto bien camuflado en imágenes."
+        },
+        "VAI-2026-020": {
+          "susceptibility": "high",
+          "notes": "Alta calidad de generación; puede usarse para ingeniería social a pesar de los controles de Anthropic."
+        },
+        "VAI-2026-021": {
+          "susceptibility": "medium",
+          "notes": "Anthropic ha priorizado la equidad, pero el framing adversarial puede inducir sesgos residuales."
+        },
+        "VAI-2026-022": {
+          "susceptibility": "medium",
+          "notes": "Respuestas consistentes ante preguntas sobre capacidades facilitan la identificación por comportamiento."
+        },
+        "VAI-2026-023": {
+          "susceptibility": "low",
+          "notes": "Anthropic aplica validación de parámetros en la API y el modelo es robusto a configuraciones extremas."
+        },
+        "VAI-2026-024": {
+          "susceptibility": "medium",
+          "notes": "Anthropic implementa instrucciones defensivas por defecto, pero técnicas avanzadas pueden evadir las protecciones."
+        },
+        "VAI-2026-025": {
+          "susceptibility": "low",
+          "notes": "Claude señala activamente problemas de seguridad en el código y añade advertencias sobre mejores prácticas."
+        },
+        "VAI-2026-026": {
+          "susceptibility": "medium",
+          "notes": "Claude expresa incertidumbre más frecuentemente, pero puede ser inducido a fabricar información."
+        },
+        "VAI-2026-027": {
+          "susceptibility": "medium",
+          "notes": "Aplica cierta separación entre contenido de documentos e instrucciones del sistema."
+        },
+        "VAI-2026-028": {
+          "susceptibility": "medium",
+          "notes": "Anthropic aplica límites de tokens por defecto, pero sponge attacks de alta complejidad son efectivos."
+        },
+        "VAI-2026-029": {
+          "susceptibility": "low",
+          "notes": "Anthropic ha entrenado explícitamente contra bypass por contexto narrativo y roleplay."
+        },
+        "VAI-2026-030": {
+          "susceptibility": "medium",
+          "notes": "Incluye consideraciones de privacidad en sus respuestas, pero no detecta perfilado acumulativo."
+        },
+        "VAI-2026-031": {
+          "susceptibility": "medium",
+          "notes": "Aplica cierto escrutinio al contenido extraído de imágenes, pero es susceptible a texto bien camuflado."
+        },
+        "VAI-2026-032": {
+          "susceptibility": "medium",
+          "notes": "Los proyectos de Claude tienen cierta separación entre memoria factual y de permisos."
+        },
+        "VAI-2026-033": {
+          "susceptibility": "medium",
+          "notes": "Claude aplica políticas de uso que limitan el impacto de plugins maliciosos."
+        },
+        "VAI-2026-034": {
+          "susceptibility": "medium",
+          "notes": "Uso en pipelines RAG expone los embeddings a inversión si los vectores son accesibles al atacante."
+        },
+        "VAI-2026-036": {
+          "susceptibility": "medium",
+          "notes": "Anthropic aplica controles de uso adicionales sobre las API keys, reduciendo el impacto de keys expuestas."
+        },
+        "VAI-2026-037": {
+          "susceptibility": "low",
+          "notes": "Anthropic ha entrenado explícitamente contra técnicas DAN y roleplay jailbreak conocidas."
+        },
+        "VAI-2026-038": {
+          "susceptibility": "medium",
+          "notes": "Anthropic implementa aislamiento de contexto robusto en sus APIs gestionadas."
+        },
+        "VAI-2026-039": {
+          "susceptibility": "medium",
+          "notes": "El tool use produce JSON estructurado pero los valores pueden contener inyección sin sanitización contextual."
+        },
+        "VAI-2026-040": {
+          "susceptibility": "medium",
+          "notes": "Claude implementa restricciones adicionales en el intérprete de código, limitando el acceso al sistema."
+        },
+        "VAI-2026-041": {
+          "susceptibility": "low",
+          "notes": "Anthropic implementa análisis de intención a nivel de conversación, reduciendo la efectividad de la fragmentación."
+        },
+        "VAI-2026-042": {
+          "susceptibility": "medium",
+          "notes": "Claude evalúa las conclusiones parcialmente de forma independiente, pero argumentos elaborados pueden evadir los controles."
+        },
+        "VAI-2026-043": {
+          "susceptibility": "medium",
+          "notes": "Claude aplica cierto escepticismo a instrucciones de otras fuentes, pero la autenticación de agentes es del operador."
+        },
+        "VAI-2026-044": {
+          "susceptibility": "medium",
+          "notes": "Anthropic aplica controles de uso que dificultan la generación masiva de contenido para desinformación."
+        },
+        "VAI-2026-045": {
+          "susceptibility": "low",
+          "notes": "Anthropic es robusto ante authority claims; mantiene umbrales de seguridad independientemente del contexto declarado."
+        },
+        "VAI-2026-048": {
+          "susceptibility": "medium",
+          "notes": "Anthropic ha priorizado la reducción de sesgos, pero el uso en decisiones algorítmicas amplifica sesgos residuales."
+        },
+        "VAI-2026-049": {
+          "susceptibility": "medium",
+          "notes": "Claude tiende a mantener mejor atención sobre instrucciones del sistema a lo largo del contexto largo."
+        },
+        "VAI-2026-050": {
+          "susceptibility": "medium",
+          "notes": "Anthropic ha implementado guardrails para limitar la agencia autónoma, pero sistemas de larga duración son susceptibles."
+        }
+      },
+      "overall_risk_score": 5.8,
+      "last_assessed": "2026-04-01"
+    },
+    {
+      "id": "gemini-1.5-pro",
+      "name": "Gemini 1.5 Pro",
+      "provider": "Google DeepMind",
+      "release_year": 2024,
+      "architecture": "Transformer decoder multimodal (MoE)",
+      "context_window": 1000000,
+      "multimodal": true,
+      "open_source": false,
+      "vulnerability_profile": {
+        "VAI-2026-001": {
+          "susceptibility": "high",
+          "notes": "Vulnerable a prompt injection directa en contextos sin moderación adicional de Google."
+        },
+        "VAI-2026-002": {
+          "susceptibility": "high",
+          "notes": "Contexto de 1M tokens amplía enormemente la superficie de ataque para inyección indirecta."
+        },
+        "VAI-2026-003": {
+          "susceptibility": "medium",
+          "notes": "Safe messaging guidelines reducen riesgo pero system prompt puede extraerse parcialmente."
+        },
+        "VAI-2026-004": {
+          "susceptibility": "medium",
+          "notes": "Modelo propietario; auditoría del pipeline limitada a Google internamente."
+        },
+        "VAI-2026-005": {
+          "susceptibility": "high",
+          "notes": "Genera código ejecutable sin restricciones; la sanitización es responsabilidad del desarrollador."
+        },
+        "VAI-2026-006": {
+          "susceptibility": "high",
+          "notes": "Integración con Google Workspace amplía la superficie de agencia excesiva."
+        },
+        "VAI-2026-007": {
+          "susceptibility": "medium",
+          "notes": "Puede revelar instrucciones del sistema con presión suficiente."
+        },
+        "VAI-2026-008": {
+          "susceptibility": "high",
+          "notes": "El contexto largo puede introducir información contradictoria que eleva la tasa de alucinación."
+        },
+        "VAI-2026-009": {
+          "susceptibility": "high",
+          "notes": "Contexto de 1M tokens hace los ataques de resource exhaustion especialmente costosos."
+        },
+        "VAI-2026-010": {
+          "susceptibility": "medium",
+          "notes": "Filtros de contenido de Google detectan jailbreaks conocidos pero no todos los narrativos."
+        },
+        "VAI-2026-011": {
+          "susceptibility": "medium",
+          "notes": "Google implementa controles de acceso pero el modelo grande es un objetivo valioso para la construcción de surrogates."
+        },
+        "VAI-2026-014": {
+          "susceptibility": "high",
+          "notes": "Contexto largo aumenta la superficie de ataque RAG; alta fidelidad al contenido recuperado."
+        },
+        "VAI-2026-015": {
+          "susceptibility": "high",
+          "notes": "Ventana de 1M tokens; especialmente susceptible a técnicas de dilución de atención."
+        },
+        "VAI-2026-016": {
+          "susceptibility": "medium",
+          "notes": "Detecta jailbreaks directos pero susceptible a escalada gradual en conversaciones largas."
+        },
+        "VAI-2026-017": {
+          "susceptibility": "high",
+          "notes": "Integración nativa con tools sin confirmación por defecto para acciones irreversibles."
+        },
+        "VAI-2026-018": {
+          "susceptibility": "medium",
+          "notes": "Susceptible a técnicas de codificación avanzadas; la normalización Unicode es parcial."
+        },
+        "VAI-2026-019": {
+          "susceptibility": "high",
+          "notes": "Alta capacidad de OCR nativa; texto de bajo contraste en imágenes es procesado como instrucción."
+        },
+        "VAI-2026-020": {
+          "susceptibility": "high",
+          "notes": "Capacidad multimodal amplía los vectores: texto, imagen y síntesis de voz para ataques de vishing."
+        },
+        "VAI-2026-021": {
+          "susceptibility": "medium",
+          "notes": "Google aplica evaluaciones de equidad, pero los sesgos sistémicos son difíciles de eliminar completamente."
+        },
+        "VAI-2026-022": {
+          "susceptibility": "medium",
+          "notes": "La integración con Google Search y herramientas nativas puede revelar pistas sobre el modelo subyacente."
+        },
+        "VAI-2026-023": {
+          "susceptibility": "medium",
+          "notes": "La API de Google permite configuración de parámetros con validación parcial."
+        },
+        "VAI-2026-024": {
+          "susceptibility": "medium",
+          "notes": "Susceptible a técnicas de completado y traducción del system prompt sin instrucciones defensivas explícitas."
+        },
+        "VAI-2026-025": {
+          "susceptibility": "medium",
+          "notes": "Generación de código sin revisión activa de seguridad en todas las sugerencias."
+        },
+        "VAI-2026-026": {
+          "susceptibility": "medium",
+          "notes": "La integración RAG reduce la tasa de alucinación pero no la elimina completamente."
+        },
+        "VAI-2026-027": {
+          "susceptibility": "high",
+          "notes": "Ventana de contexto larga aumenta la superficie de ataque; alta probabilidad de seguir instrucciones en documentos."
+        },
+        "VAI-2026-028": {
+          "susceptibility": "high",
+          "notes": "Ventana de 1M tokens sin límite por petición por defecto; máxima exposición a sponge attacks."
+        },
+        "VAI-2026-029": {
+          "susceptibility": "medium",
+          "notes": "Detecta intentos directos pero susceptible a reencuadres hipotéticos o académicos complejos."
+        },
+        "VAI-2026-030": {
+          "susceptibility": "medium",
+          "notes": "La integración con datos de Google puede amplificar el riesgo de inferencia de perfil."
+        },
+        "VAI-2026-031": {
+          "susceptibility": "high",
+          "notes": "Alta capacidad de OCR nativa; texto oculto en imágenes es procesado como instrucción por el modelo."
+        },
+        "VAI-2026-034": {
+          "susceptibility": "medium",
+          "notes": "Los embeddings de Gemini son susceptibles a inversión parcial si el atacante tiene acceso al vector store."
+        },
+        "VAI-2026-036": {
+          "susceptibility": "high",
+          "notes": "API keys de Google Cloud con permisos amplios; una key expuesta puede comprometer otros servicios GCP."
+        },
+        "VAI-2026-037": {
+          "susceptibility": "medium",
+          "notes": "Detecta patrones de roleplay comunes pero es susceptible a variantes nuevas no documentadas."
+        },
+        "VAI-2026-038": {
+          "susceptibility": "medium",
+          "notes": "El aislamiento de contexto en Vertex AI es responsabilidad del operador de la plataforma."
+        },
+        "VAI-2026-039": {
+          "susceptibility": "medium",
+          "notes": "JSON mode fuerza la estructura pero los valores son generados por el modelo sin sanitización de seguridad."
+        },
+        "VAI-2026-041": {
+          "susceptibility": "medium",
+          "notes": "Susceptible a fragmentación en conversaciones largas donde el contexto acumulado no se evalúa completamente."
+        },
+        "VAI-2026-042": {
+          "susceptibility": "medium",
+          "notes": "Aplica cierta evaluación post-razonamiento, pero argumentos lógicos complejos pueden evadir los controles."
+        },
+        "VAI-2026-043": {
+          "susceptibility": "medium",
+          "notes": "Los sistemas multi-agente de Gemini no implementan autenticación de mensajes inter-agente por defecto."
+        },
+        "VAI-2026-044": {
+          "susceptibility": "high",
+          "notes": "Alta capacidad generativa; las restricciones no previenen el uso en campañas automatizadas a escala."
+        },
+        "VAI-2026-045": {
+          "susceptibility": "medium",
+          "notes": "Susceptible a reducción de umbrales ante contextos profesionales plausibles declarados por el usuario."
+        },
+        "VAI-2026-047": {
+          "susceptibility": "high",
+          "notes": "La integración nativa de voz en Gemini Live puede procesar comandos ultrasónicos sin detección."
+        },
+        "VAI-2026-048": {
+          "susceptibility": "medium",
+          "notes": "Los modelos de Google han sido evaluados para equidad, pero persisten sesgos sistémicos en dominios especializados."
+        },
+        "VAI-2026-049": {
+          "susceptibility": "high",
+          "notes": "Con ventana de 1M tokens, el fenómeno lost in the middle es especialmente pronunciado en posiciones intermedias."
+        },
+        "VAI-2026-050": {
+          "susceptibility": "high",
+          "notes": "La integración con Google Workspace amplifica el impacto potencial del goal drift en agentes autónomos."
+        }
+      },
+      "overall_risk_score": 7.1,
+      "last_assessed": "2026-04-01"
+    },
+    {
+      "id": "llama-3-70b",
+      "name": "LLaMA 3 70B",
+      "provider": "Meta AI",
+      "release_year": 2024,
+      "architecture": "Transformer decoder (GQA)",
+      "context_window": 8192,
+      "multimodal": false,
+      "open_source": true,
+      "vulnerability_profile": {
+        "VAI-2026-001": {
+          "susceptibility": "high",
+          "notes": "Modelo open source: sin guardrails por defecto en despliegues propios. Altamente vulnerable sin capas de seguridad adicionales."
+        },
+        "VAI-2026-002": {
+          "susceptibility": "high",
+          "notes": "Sin mecanismos de detección de inyección en contenido externo en el modelo base."
+        },
+        "VAI-2026-003": {
+          "susceptibility": "high",
+          "notes": "El modelo base no tiene instrucciones para proteger el system prompt."
+        },
+        "VAI-2026-004": {
+          "susceptibility": "high",
+          "notes": "Open source: cualquier actor puede hacer fine-tuning malicioso y distribuir el modelo envenenado."
+        },
+        "VAI-2026-005": {
+          "susceptibility": "high",
+          "notes": "Sin restricciones en el output; toda la responsabilidad recae en la aplicación."
+        },
+        "VAI-2026-006": {
+          "susceptibility": "high",
+          "notes": "En despliegues con tools, actúa sin restricciones de agencia por defecto."
+        },
+        "VAI-2026-007": {
+          "susceptibility": "high",
+          "notes": "El modelo base revela el system prompt con facilidad ante peticiones directas."
+        },
+        "VAI-2026-008": {
+          "susceptibility": "high",
+          "notes": "Tasa de alucinación más elevada que modelos propietarios de mayor tamaño."
+        },
+        "VAI-2026-009": {
+          "susceptibility": "medium",
+          "notes": "En despliegues self-hosted el operador controla el rate limiting directamente."
+        },
+        "VAI-2026-010": {
+          "susceptibility": "high",
+          "notes": "Sin entrenamiento especializado anti-jailbreak en el modelo base."
+        },
+        "VAI-2026-011": {
+          "susceptibility": "high",
+          "notes": "Los pesos son públicos; la extracción es trivial y el surrogate puede replicar el comportamiento con alta fidelidad."
+        },
+        "VAI-2026-012": {
+          "susceptibility": "high",
+          "notes": "Modelo abierto sin privacidad diferencial; alta tasa de memorización de datos del corpus de entrenamiento."
+        },
+        "VAI-2026-013": {
+          "susceptibility": "high",
+          "notes": "Distribuido en Hugging Face; fácil de sustituir por una versión comprometida con backdoor sin que el usuario lo detecte."
+        },
+        "VAI-2026-015": {
+          "susceptibility": "medium",
+          "notes": "Ventana de 8K en versiones base; el límite reduce el impacto pero también limita la usabilidad."
+        },
+        "VAI-2026-016": {
+          "susceptibility": "high",
+          "notes": "Sin evaluación de seguridad conversacional en el modelo base; depende completamente de la capa de aplicación."
+        },
+        "VAI-2026-018": {
+          "susceptibility": "high",
+          "notes": "Sin normalización de inputs; el tokenizador procesa caracteres Unicode sin restricción."
+        },
+        "VAI-2026-020": {
+          "susceptibility": "high",
+          "notes": "Sin restricciones de uso en el modelo base; genera contenido de ingeniería social sin fricción."
+        },
+        "VAI-2026-021": {
+          "susceptibility": "high",
+          "notes": "Modelo base sin debiasing específico; más susceptible a inducción de sesgos adversariales por framing."
+        },
+        "VAI-2026-022": {
+          "susceptibility": "high",
+          "notes": "Modelo open source; la identificación es trivial por el comportamiento característico del modelo base."
+        },
+        "VAI-2026-023": {
+          "susceptibility": "high",
+          "notes": "En self-hosting sin validación de parámetros; temperatura extrema produce outputs fuera de los guardrails."
+        },
+        "VAI-2026-024": {
+          "susceptibility": "high",
+          "notes": "Sin instrucciones defensivas integradas; el system prompt puede extraerse con técnicas básicas de completado."
+        },
+        "VAI-2026-025": {
+          "susceptibility": "high",
+          "notes": "Modelos de código open source sin filtrado de patrones de seguridad en el código generado."
+        },
+        "VAI-2026-026": {
+          "susceptibility": "high",
+          "notes": "Mayor tasa de alucinación que los modelos comerciales; más fácil de inducir a fabricar información."
+        },
+        "VAI-2026-028": {
+          "susceptibility": "medium",
+          "notes": "En self-hosting el operador controla los recursos; el riesgo depende de la configuración de producción."
+        },
+        "VAI-2026-029": {
+          "susceptibility": "high",
+          "notes": "Sin evaluación semántica de intención; el framing lingüístico es altamente efectivo en el modelo base."
+        },
+        "VAI-2026-035": {
+          "susceptibility": "high",
+          "notes": "Open source; el fine-tuning sin restricciones hace trivial el envenenamiento del proceso de adaptación."
+        },
+        "VAI-2026-037": {
+          "susceptibility": "high",
+          "notes": "Sin entrenamiento contra roleplay jailbreak; altamente susceptible a técnicas DAN y similares."
+        },
+        "VAI-2026-039": {
+          "susceptibility": "high",
+          "notes": "Sin modo de generación estructurada nativo; el JSON generado puede contener contenido malicioso sin filtrado."
+        },
+        "VAI-2026-041": {
+          "susceptibility": "high",
+          "notes": "Sin análisis de intención conversacional; cada mensaje es evaluado en aislamiento del contexto previo."
+        },
+        "VAI-2026-044": {
+          "susceptibility": "high",
+          "notes": "Open source sin restricciones de uso; ideal para campañas de generación masiva de contenido sintético."
+        },
+        "VAI-2026-045": {
+          "susceptibility": "high",
+          "notes": "Sin evaluación de contexto profesional; cualquier declaración de autoridad puede reducir las restricciones."
+        },
+        "VAI-2026-046": {
+          "susceptibility": "high",
+          "notes": "Entrenado sin privacidad diferencial formal; alta tasa de memorización de datos del corpus de entrenamiento."
+        }
+      },
+      "overall_risk_score": 8.9,
+      "last_assessed": "2026-04-01"
+    },
+    {
+      "id": "mistral-7b",
+      "name": "Mistral 7B",
+      "provider": "Mistral AI",
+      "release_year": 2023,
+      "architecture": "Transformer decoder (GQA + sliding window attention)",
+      "context_window": 32768,
+      "multimodal": false,
+      "open_source": true,
+      "vulnerability_profile": {
+        "VAI-2026-001": {
+          "susceptibility": "high",
+          "notes": "Modelo ligero open source sin guardrails de seguridad en el base model."
+        },
+        "VAI-2026-002": {
+          "susceptibility": "high",
+          "notes": "Sin mecanismos de detección de inyección indirecta; altamente susceptible en pipelines agenticos."
+        },
+        "VAI-2026-003": {
+          "susceptibility": "high",
+          "notes": "Revela el system prompt con técnicas básicas de extracción."
+        },
+        "VAI-2026-004": {
+          "susceptibility": "high",
+          "notes": "Ampliamente usado en fine-tuning; superficie de envenenamiento elevada en ecosistema open source."
+        },
+        "VAI-2026-005": {
+          "susceptibility": "high",
+          "notes": "Sin restricciones de output; toda sanitización depende de la aplicación."
+        },
+        "VAI-2026-006": {
+          "susceptibility": "high",
+          "notes": "Sin límites de agencia en el modelo base."
+        },
+        "VAI-2026-007": {
+          "susceptibility": "high",
+          "notes": "System prompt fácilmente extraíble sin instrucciones defensivas adicionales."
+        },
+        "VAI-2026-008": {
+          "susceptibility": "high",
+          "notes": "Modelo pequeño con mayor tasa de alucinación que modelos de mayor escala."
+        },
+        "VAI-2026-009": {
+          "susceptibility": "medium",
+          "notes": "En self-hosting el operador gestiona el rate limiting; en APIs externas depende del proveedor."
+        },
+        "VAI-2026-010": {
+          "susceptibility": "high",
+          "notes": "Sin entrenamiento específico anti-jailbreak narrativo."
+        },
+        "VAI-2026-013": {
+          "susceptibility": "high",
+          "notes": "Open source distribuido libremente; alta superficie de ataque en repositorios públicos de modelos."
+        },
+        "VAI-2026-035": {
+          "susceptibility": "high",
+          "notes": "Modelo base open source ampliamente usado en fine-tuning de terceros sin auditoría de seguridad."
+        },
+        "VAI-2026-046": {
+          "susceptibility": "high",
+          "notes": "Sin privacidad diferencial; datos de entrenamiento parcialmente reconstruibles con membership inference."
+        }
+      },
+      "overall_risk_score": 8.6,
+      "last_assessed": "2026-04-15"
+    },
+    {
+      "id": "mixtral-8x7b",
+      "name": "Mixtral 8x7B",
+      "provider": "Mistral AI",
+      "release_year": 2023,
+      "architecture": "Sparse Mixture of Experts (SMoE)",
+      "context_window": 32768,
+      "multimodal": false,
+      "open_source": true,
+      "vulnerability_profile": {
+        "VAI-2026-001": {
+          "susceptibility": "high",
+          "notes": "Arquitectura MoE open source sin guardrails de seguridad nativos."
+        },
+        "VAI-2026-002": {
+          "susceptibility": "high",
+          "notes": "Susceptible a inyección indirecta en pipelines RAG y agenticos."
+        },
+        "VAI-2026-003": {
+          "susceptibility": "high",
+          "notes": "El modelo base no protege el system prompt ante técnicas de extracción."
+        },
+        "VAI-2026-004": {
+          "susceptibility": "high",
+          "notes": "Distribuido abiertamente; fácil de envenenar mediante fine-tuning malicioso."
+        },
+        "VAI-2026-005": {
+          "susceptibility": "high",
+          "notes": "Output sin restricciones; responsabilidad de sanitización en la aplicación."
+        },
+        "VAI-2026-006": {
+          "susceptibility": "high",
+          "notes": "En pipelines agenticos actúa sin restricciones de agencia."
+        },
+        "VAI-2026-007": {
+          "susceptibility": "high",
+          "notes": "System prompt extraíble con técnicas estándar."
+        },
+        "VAI-2026-008": {
+          "susceptibility": "medium",
+          "notes": "Mayor capacidad que Mistral 7B, menor tasa de alucinación pero aún significativa."
+        },
+        "VAI-2026-009": {
+          "susceptibility": "medium",
+          "notes": "Self-hosting permite control directo de rate limiting."
+        },
+        "VAI-2026-010": {
+          "susceptibility": "high",
+          "notes": "Sin entrenamiento especializado anti-jailbreak."
+        },
+        "VAI-2026-013": {
+          "susceptibility": "high",
+          "notes": "Arquitectura MoE open source sin firma digital nativa de los artefactos del modelo."
+        },
+        "VAI-2026-035": {
+          "susceptibility": "high",
+          "notes": "Arquitectura MoE popular para fine-tuning; alta superficie de ataque en procesos de MLaaS."
+        }
+      },
+      "overall_risk_score": 8.2,
+      "last_assessed": "2026-04-15"
+    },
+    {
+      "id": "phi-3-mini",
+      "name": "Phi-3 Mini",
+      "provider": "Microsoft",
+      "release_year": 2024,
+      "architecture": "Transformer decoder (dense, optimizado para edge)",
+      "context_window": 128000,
+      "multimodal": false,
+      "open_source": true,
+      "vulnerability_profile": {
+        "VAI-2026-001": {
+          "susceptibility": "medium",
+          "notes": "Microsoft aplica RLHF en el entrenamiento; algo más resistente que otros modelos open source de tamaño similar."
+        },
+        "VAI-2026-002": {
+          "susceptibility": "high",
+          "notes": "Sin mecanismos de sandboxing de contenido externo en el modelo base."
+        },
+        "VAI-2026-003": {
+          "susceptibility": "medium",
+          "notes": "Instrucciones de seguridad de Microsoft incluidas en el fine-tuning; mayor resistencia a extracción de system prompt."
+        },
+        "VAI-2026-004": {
+          "susceptibility": "high",
+          "notes": "Open source: susceptible a fine-tuning malicioso externo."
+        },
+        "VAI-2026-005": {
+          "susceptibility": "high",
+          "notes": "Sin restricciones de output; responsabilidad de la aplicación."
+        },
+        "VAI-2026-006": {
+          "susceptibility": "medium",
+          "notes": "Modelo pequeño menos usado en pipelines agenticos complejos; menor superficie de agencia."
+        },
+        "VAI-2026-007": {
+          "susceptibility": "medium",
+          "notes": "Algo más resistente a extracción de system prompt por el RLHF de Microsoft."
+        },
+        "VAI-2026-008": {
+          "susceptibility": "high",
+          "notes": "Modelo pequeño con limitaciones de conocimiento; mayor propensión a alucinaciones."
+        },
+        "VAI-2026-009": {
+          "susceptibility": "medium",
+          "notes": "Optimizado para edge; self-hosting facilita el control de rate limiting."
+        },
+        "VAI-2026-010": {
+          "susceptibility": "medium",
+          "notes": "RLHF incluye algunos ejemplos de jailbreak pero no es comprehensive."
+        }
+      },
+      "overall_risk_score": 7.8,
+      "last_assessed": "2026-04-15"
+    },
+    {
+      "id": "falcon-40b",
+      "name": "Falcon 40B",
+      "provider": "Technology Innovation Institute",
+      "release_year": 2023,
+      "architecture": "Transformer decoder (multiquery attention)",
+      "context_window": 2048,
+      "multimodal": false,
+      "open_source": true,
+      "vulnerability_profile": {
+        "VAI-2026-001": {
+          "susceptibility": "high",
+          "notes": "Modelo open source sin guardrails de seguridad nativos. Contexto pequeño facilita el override del system prompt."
+        },
+        "VAI-2026-002": {
+          "susceptibility": "high",
+          "notes": "Sin detección de inyección en contenido externo."
+        },
+        "VAI-2026-003": {
+          "susceptibility": "high",
+          "notes": "System prompt fácilmente extraíble; no hay instrucciones defensivas en el base model."
+        },
+        "VAI-2026-004": {
+          "susceptibility": "high",
+          "notes": "Open source con distribución amplia; susceptible a variantes envenenadas en comunidad."
+        },
+        "VAI-2026-005": {
+          "susceptibility": "high",
+          "notes": "Sin restricciones de output en el modelo base."
+        },
+        "VAI-2026-006": {
+          "susceptibility": "medium",
+          "notes": "Contexto corto (2K tokens) limita la complejidad de pipelines agenticos."
+        },
+        "VAI-2026-007": {
+          "susceptibility": "high",
+          "notes": "Contexto pequeño hace más fácil desplazar el system prompt."
+        },
+        "VAI-2026-008": {
+          "susceptibility": "high",
+          "notes": "Modelo más antiguo con mayor tasa de alucinación que arquitecturas más recientes."
+        },
+        "VAI-2026-009": {
+          "susceptibility": "low",
+          "notes": "Contexto muy corto (2K) limita el impacto de ataques de context flooding."
+        },
+        "VAI-2026-010": {
+          "susceptibility": "high",
+          "notes": "Sin entrenamiento anti-jailbreak en el base model."
+        },
+        "VAI-2026-013": {
+          "susceptibility": "high",
+          "notes": "Open source sin restricciones; los pesos pueden ser modificados y redistribuidos sin detección."
+        },
+        "VAI-2026-035": {
+          "susceptibility": "high",
+          "notes": "Open source sin restricciones de fine-tuning; pesos modificables y redistribuibles sin detección."
+        }
+      },
+      "overall_risk_score": 8.5,
+      "last_assessed": "2026-04-15"
+    },
+    {
+      "id": "gpt-3-5-turbo",
+      "name": "GPT-3.5 Turbo",
+      "provider": "OpenAI",
+      "release_year": 2022,
+      "architecture": "Transformer decoder (InstructGPT RLHF)",
+      "context_window": 16385,
+      "multimodal": false,
+      "open_source": false,
+      "vulnerability_profile": {
+        "VAI-2026-001": {
+          "susceptibility": "high",
+          "notes": "Modelo más antiguo; sus guardrails son menos robustos que GPT-4o ante técnicas de inyección avanzadas."
+        },
+        "VAI-2026-002": {
+          "susceptibility": "high",
+          "notes": "Sin mecanismos específicos para detectar inyección en contenido externo."
+        },
+        "VAI-2026-003": {
+          "susceptibility": "medium",
+          "notes": "Sistema de moderación de OpenAI reduce riesgo; pero system prompt extraíble con presión."
+        },
+        "VAI-2026-004": {
+          "susceptibility": "medium",
+          "notes": "Modelo propietario con pipeline de entrenamiento auditado por OpenAI."
+        },
+        "VAI-2026-005": {
+          "susceptibility": "high",
+          "notes": "Genera código y HTML sin restricciones; sanitización responsabilidad de la aplicación."
+        },
+        "VAI-2026-006": {
+          "susceptibility": "high",
+          "notes": "Ampliamente usado en pipelines de agentes; actúa con alta autonomía por defecto."
+        },
+        "VAI-2026-007": {
+          "susceptibility": "high",
+          "notes": "Más susceptible que GPT-4o a revelar instrucciones del sistema ante técnicas de extracción."
+        },
+        "VAI-2026-008": {
+          "susceptibility": "high",
+          "notes": "Mayor tasa de alucinación que GPT-4o; modelo más antiguo con menos conocimiento actualizado."
+        },
+        "VAI-2026-009": {
+          "susceptibility": "high",
+          "notes": "API sin rate limiting propio; depende de la configuración del cliente."
+        },
+        "VAI-2026-010": {
+          "susceptibility": "high",
+          "notes": "Guardrails menos robustos que GPT-4o ante jailbreaks narrativos complejos."
+        },
+        "VAI-2026-012": {
+          "susceptibility": "high",
+          "notes": "Modelos anteriores con mayor tasa de memorización; técnicas de extracción documentadas son efectivas."
+        },
+        "VAI-2026-046": {
+          "susceptibility": "medium",
+          "notes": "OpenAI ha aplicado técnicas de reducción de memorización pero no ha publicado parámetros de DP formal."
+        }
+      },
+      "overall_risk_score": 7.9,
+      "last_assessed": "2026-04-15"
+    },
+    {
+      "id": "claude-3-opus",
+      "name": "Claude 3 Opus",
+      "provider": "Anthropic",
+      "release_year": 2024,
+      "architecture": "Transformer decoder (Constitutional AI + RLHF)",
+      "context_window": 200000,
+      "multimodal": true,
+      "open_source": false,
+      "vulnerability_profile": {
+        "VAI-2026-001": {
+          "susceptibility": "low",
+          "notes": "Constitutional AI de última generación: alta resistencia a prompt injection directa."
+        },
+        "VAI-2026-002": {
+          "susceptibility": "medium",
+          "notes": "Más resistente que GPT-4o en pipelines agenticos pero no inmune a inyección indirecta sofisticada."
+        },
+        "VAI-2026-003": {
+          "susceptibility": "low",
+          "notes": "Entrenado específicamente para proteger el system prompt; mayor resistencia que Claude 3.5 Sonnet."
+        },
+        "VAI-2026-004": {
+          "susceptibility": "low",
+          "notes": "Pipeline de entrenamiento propietario con auditorías internas exhaustivas."
+        },
+        "VAI-2026-005": {
+          "susceptibility": "high",
+          "notes": "El modelo genera código y contenido sin restricciones; sanitización responsabilidad de la aplicación."
+        },
+        "VAI-2026-006": {
+          "susceptibility": "low",
+          "notes": "Claude 3 Opus es notablemente conservador en acciones autónomas; pide confirmación proactivamente."
+        },
+        "VAI-2026-007": {
+          "susceptibility": "low",
+          "notes": "Máxima resistencia a extracción de system prompt de la familia Claude 3."
+        },
+        "VAI-2026-008": {
+          "susceptibility": "low",
+          "notes": "Menor tasa de alucinación que cualquier otro modelo en esta lista según benchmarks."
+        },
+        "VAI-2026-009": {
+          "susceptibility": "high",
+          "notes": "API sin rate limiting propio; coste elevado hace los ataques de DoS muy costosos para el operador."
+        },
+        "VAI-2026-010": {
+          "susceptibility": "low",
+          "notes": "Mejor resistencia a jailbreak narrativo de todos los modelos evaluados."
+        }
+      },
+      "overall_risk_score": 5.2,
+      "last_assessed": "2026-04-15"
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+:root {
+  /* ── Fondos ──────────────────────────────────────────────────────────── */
+  --bg-base:     #010204;
+  --bg-surface:  #03050a;
+  --bg-elevated: #070b12;
+  --bg-overlay:  #0d121a;
+  --bg-raised:  #0d121a;
+
+  /* ── Acento principal — indigo eléctrico ──────────────────────────────── */
+  --accent-primary:       #736bff;
+  --accent-primary-dim:   rgba(115, 107, 255, 0.15);
+  --accent-primary-hover: #837fff;
+  --accent-primary-glow:  rgba(115, 107, 255, 0.28);
+  --accent-secondary:     var(--accent-primary);
+
+  /* ── Acento secundario — verde ácido (solo severity/highlight) ───────── */
+  --accent-green:     #4cc157;
+  --accent-green-dim: rgba(76, 193, 87, 0.12);
+
+  /* ── Severidad ───────────────────────────────────────────────────────── */
+  --severity-critical: #e62b34;
+  --severity-high:     #ea6300;
+  --severity-medium:   #dba900;
+  --severity-low:      #4cc157;
+  --severity-info:     #736bff;
+
+  --severity-critical-dim: rgba(230, 43, 52, 0.12);
+  --severity-high-dim:     rgba(234, 99, 0, 0.12);
+  --severity-medium-dim:   rgba(219, 169, 0, 0.10);
+  --severity-low-dim:      rgba(76, 193, 87, 0.12);
+
+  /* ── Texto ───────────────────────────────────────────────────────────── */
+  --text-primary:   #f0f2f4;
+  --text-secondary: #9499a0;
+  --text-muted:     #55585e;
+  --text-faint:     #303337;
+
+  /* ── Bordes ──────────────────────────────────────────────────────────── */
+  --border-subtle:  rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.12);
+  --border-strong:  rgba(255, 255, 255, 0.22);
+  --border-focus:   var(--accent-primary);
+
+  /* ── Tipografía ──────────────────────────────────────────────────────── */
+  --font-heading: 'Syne', system-ui, sans-serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  /* ── Escala tipográfica ──────────────────────────────────────────────── */
+  --text-2xs: clamp(0.60rem, 1.2vw, 0.65rem);
+  --text-xs:  clamp(0.70rem, 1.5vw, 0.75rem);
+  --text-sm:  clamp(0.80rem, 1.8vw, 0.875rem);
+  --text-base:clamp(0.90rem, 2vw,   1rem);
+  --text-lg:  clamp(1.05rem, 2.5vw, 1.125rem);
+  --text-xl:  clamp(1.15rem, 3vw,   1.25rem);
+  --text-2xl: clamp(1.40rem, 4vw,   1.5rem);
+  --text-3xl: clamp(1.70rem, 5vw,   1.875rem);
+  --text-4xl: clamp(2.2rem,  6vw,   3rem);
+  --text-5xl: clamp(2.8rem,  8vw,   4.5rem);
+
+  /* ── Espaciado ───────────────────────────────────────────────────────── */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* ── Radios ──────────────────────────────────────────────────────────── */
+  --radius-xs:   2px;
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  24px;
+  --radius-full: 9999px;
+
+  /* ── Sombras ─────────────────────────────────────────────────────────── */
+  --shadow-sm:     0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md:     0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg:     0 8px 32px rgba(0, 0, 0, 0.65);
+  --shadow-accent: 0 0 0 1px var(--accent-primary-dim), 0 8px 32px var(--accent-primary-glow);
+
+  /* ── Transiciones ────────────────────────────────────────────────────── */
+  --transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 380ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Z-index ─────────────────────────────────────────────────────────── */
+  --z-base:     0;
+  --z-raised:   10;
+  --z-dropdown: 100;
+  --z-sticky:   200;
+  --z-modal:    1000;
+  --z-toast:    2000;
+}
+
+/* ─── Light theme overrides ─────────────────────────────────────────────────
+   MUST come after :root — same specificity, source order decides winner.
+   Applied when <html class="theme-light"> is set synchronously by theme.js  */
+.theme-light {
+  --bg-base:     #eef0f5;
+  --bg-surface:  #f7f8fc;
+  --bg-elevated: #e4e6ef;
+  --bg-overlay:  #d8dae6;
+  --bg-raised:  #ffffff;
+
+  --text-primary:   #0d0f14;
+  --text-secondary: #3a3f4d;
+  --text-muted:     #6b7080;
+  --text-faint:     #adb2bf;
+
+  --border-subtle:  rgba(0, 0, 0, 0.07);
+  --border-default: rgba(0, 0, 0, 0.13);
+  --border-strong:  rgba(0, 0, 0, 0.24);
+  --border-focus:   var(--accent-primary);
+
+  --shadow-sm:     0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md:     0 4px 16px rgba(0, 0, 0, 0.10);
+  --shadow-lg:     0 8px 32px rgba(0, 0, 0, 0.14);
+  --shadow-accent: 0 0 0 1px rgba(115, 107, 255, 0.18), 0 8px 24px rgba(115, 107, 255, 0.18);
+
+  --accent-primary-dim:  rgba(115, 107, 255, 0.12);
+  --accent-primary-glow: rgba(115, 107, 255, 0.20);
+  --accent-green-dim:    rgba(76, 193, 87, 0.10);
+
+  --severity-critical-dim: rgba(230, 43, 52, 0.08);
+  --severity-high-dim:     rgba(234, 99, 0, 0.08);
+  --severity-medium-dim:   rgba(219, 169, 0, 0.07);
+  --severity-low-dim:      rgba(76, 193, 87, 0.08);
+}

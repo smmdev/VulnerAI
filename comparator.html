@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <title>VulnerAI — Comparador de Modelos</title>
+  <meta name="description" content="Compara la susceptibilidad de los principales modelos LLM frente a cada vulnerabilidad del catálogo. Matriz interactiva con notas por combinación." />
+  <meta name="author" content="Samuel Muñoz Millán" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/comparator.css" />
+  <script src="assets/js/theme.js"></script>
+  <script defer src="assets/js/reveal.js"></script>
+</head>
+<body class="page-wrapper">
+
+  <div data-component="header"></div>
+
+  <main class="page-main" id="main-content">
+
+    <header class="comparator-header">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="index.html">Inicio</a>
+          <span class="breadcrumbs__sep">/</span>
+          <span class="breadcrumbs__current">Comparador</span>
+        </nav>
+        <span class="comparator-header__label" style="margin-top:var(--space-4);display:block">
+          Análisis comparativo
+        </span>
+        <h1 class="comparator-header__title">Comparador de modelos</h1>
+        <p class="comparator-header__desc">
+          Selecciona las vulnerabilidades y los modelos LLM que quieres analizar.
+          La matriz muestra la susceptibilidad de cada modelo frente a cada
+          vulnerabilidad, con notas detalladas por combinación.
+        </p>
+      </div>
+    </header>
+
+    <div class="catalog-body">
+      <div class="container">
+
+        <div class="comparator-selectors reveal">
+
+          <div class="selector-panel">
+            <div class="selector-panel__head">
+              <span class="selector-panel__title">Vulnerabilidades</span>
+              <div class="selector-panel__actions">
+                <button class="selector-panel__btn" id="vuln-select-all">Todas</button>
+                <button class="selector-panel__btn" id="vuln-clear">Ninguna</button>
+              </div>
+            </div>
+            <div class="selector-panel__body" id="vuln-list" role="group" aria-label="Vulnerabilidades">
+              <div class="sel-check" aria-hidden="true">
+                <span class="skeleton" style="width:15px;height:15px;border-radius:3px;flex-shrink:0"></span>
+                <span class="skeleton" style="width:80px;height:12px"></span>
+                <span class="skeleton" style="width:140px;height:12px;margin-left:auto"></span>
+              </div>
+              <div class="sel-check" aria-hidden="true">
+                <span class="skeleton" style="width:15px;height:15px;border-radius:3px;flex-shrink:0"></span>
+                <span class="skeleton" style="width:80px;height:12px"></span>
+                <span class="skeleton" style="width:110px;height:12px;margin-left:auto"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="selector-panel">
+            <div class="selector-panel__head">
+              <span class="selector-panel__title">Modelos LLM</span>
+              <div class="selector-panel__actions">
+                <button class="selector-panel__btn" id="model-select-all">Todos</button>
+                <button class="selector-panel__btn" id="model-clear">Ninguno</button>
+              </div>
+            </div>
+            <div class="selector-panel__body" id="model-list" role="group" aria-label="Modelos">
+              <div class="sel-check" aria-hidden="true">
+                <span class="skeleton" style="width:15px;height:15px;border-radius:3px;flex-shrink:0"></span>
+                <span class="skeleton" style="width:160px;height:12px"></span>
+                <span class="skeleton" style="width:30px;height:12px;margin-left:auto"></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="comparator-status reveal" aria-live="polite" aria-atomic="true">
+          <span id="comparator-status-text">
+            <strong>0</strong> vulnerabilidades &times; <strong>0</strong> modelos
+          </span>
+          <span class="comparator-status__hint">
+            Pasa el cursor sobre una celda para ver las notas detalladas
+          </span>
+        </div>
+
+        <div id="matrix-area" aria-live="polite">
+          <div class="comparator-empty">
+            <div class="comparator-empty__icon">⊞</div>
+            <p class="comparator-empty__text">
+              Selecciona al menos una vulnerabilidad y un modelo para comparar.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <div data-component="footer"></div>
+
+  <script type="module" src="assets/js/components.js"></script>
+  <script type="module" src="assets/js/comparator.js"></script>
+  <script src="assets/js/cookie-consent.js"></script>
+</body>
+</html>

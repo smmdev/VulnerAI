@@ -1,0 +1,155 @@
+/* ─── Keyframes ──────────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInFast {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+@keyframes progressBar {
+  from { width: 0; }
+  to   { width: var(--progress, 0%); }
+}
+
+/* ─── Skeleton loader base ───────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 25%,
+    rgba(148, 163, 184, 0.06) 50%,
+    var(--bg-elevated) 75%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: var(--radius-sm);
+  display: block;
+}
+
+/* ─── Skeleton card ──────────────────────────────────────────────────────── */
+.skeleton-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.skeleton-card__badge  { height: 20px; width: 80px; }
+.skeleton-card__title  { height: 22px; width: 75%; margin-top: var(--space-1); }
+.skeleton-card__line   { height: 14px; }
+.skeleton-card__line--short { width: 60%; }
+.skeleton-card__footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-subtle);
+}
+.skeleton-card__footer-left  { height: 12px; width: 100px; }
+.skeleton-card__footer-right { height: 12px; width: 40px; }
+
+/* ─── Animación de entrada para tarjetas ─────────────────────────────────── */
+.vuln-card {
+  animation: fadeIn var(--transition-slow) both;
+}
+
+/* Retraso escalonado para el grid */
+.vuln-card:nth-child(1)  { animation-delay: 0ms; }
+.vuln-card:nth-child(2)  { animation-delay: 40ms; }
+.vuln-card:nth-child(3)  { animation-delay: 80ms; }
+.vuln-card:nth-child(4)  { animation-delay: 120ms; }
+.vuln-card:nth-child(5)  { animation-delay: 160ms; }
+.vuln-card:nth-child(6)  { animation-delay: 200ms; }
+.vuln-card:nth-child(7)  { animation-delay: 240ms; }
+.vuln-card:nth-child(8)  { animation-delay: 280ms; }
+.vuln-card:nth-child(9)  { animation-delay: 320ms; }
+.vuln-card:nth-child(n+10) { animation-delay: 360ms; }
+
+/* ─── Barra de progreso de lectura ───────────────────────────────────────── */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-green));
+  z-index: var(--z-toast);
+  transition: width 80ms linear;
+}
+
+/* ─── Toast de confirmación (ej: "copiado") ─────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: var(--space-8);
+  right: var(--space-8);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-toast);
+  animation: fadeIn var(--transition-base) both;
+  pointer-events: none;
+}
+
+.toast--hidden {
+  animation: fadeInFast var(--transition-base) reverse both;
+}
+
+/* ─── Scroll reveal (IntersectionObserver) ──────────────────────────────── */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity  0.62s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.62s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal--from-left  { transform: translateX(-24px); }
+.reveal--from-right { transform: translateX(24px); }
+
+.reveal--delay-1 { transition-delay:  80ms; }
+.reveal--delay-2 { transition-delay: 160ms; }
+.reveal--delay-3 { transition-delay: 240ms; }
+.reveal--delay-4 { transition-delay: 320ms; }
+.reveal--delay-5 { transition-delay: 400ms; }
+.reveal--delay-6 { transition-delay: 480ms; }
+
+/* ─── Reducir movimiento si el usuario lo prefiere ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .skeleton {
+    animation: pulse 2s infinite;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

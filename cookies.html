@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<title>VulnerAI — Política de Cookies</title>
+<meta name="description" content="Política de cookies de VulnerAI. Información sobre las cookies utilizadas, su finalidad y cómo gestionarlas." />
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="assets/css/main.css" />
+<link rel="stylesheet" href="assets/css/legal.css" />
+<script src="assets/js/theme.js"></script>
+<script defer src="assets/js/reveal.js"></script>
+</head>
+<body class="page-wrapper">
+
+<div data-component="header"></div>
+
+<main class="page-main legal-main" id="main-content">
+  <div class="container legal-container">
+
+    <header class="legal-header">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="index.html">Inicio</a>
+        <span class="breadcrumbs__sep" aria-hidden="true">/</span>
+        <span class="breadcrumbs__current">Política de Cookies</span>
+      </nav>
+      <h1 class="legal-header__title">Política de Cookies</h1>
+      <p class="legal-header__meta">Última actualización: <time datetime="2026-05-01">1 de mayo de 2026</time></p>
+    </header>
+
+    <div class="legal-nav" aria-label="Índice del documento">
+      <p class="legal-nav__label">Índice</p>
+      <ol class="legal-nav__list">
+        <li><a href="#que-son">¿Qué son las cookies?</a></li>
+        <li><a href="#cookies-usadas">Cookies utilizadas en este sitio</a></li>
+        <li><a href="#cookies-terceros">Cookies de terceros</a></li>
+        <li><a href="#gestion">Cómo gestionar las cookies</a></li>
+        <li><a href="#preferencias">Cambiar tus preferencias</a></li>
+      </ol>
+    </div>
+
+    <div class="legal-body">
+
+      <section id="que-son" class="legal-section">
+        <h2>1. ¿Qué son las cookies?</h2>
+        <p>Las cookies son pequeños archivos de texto que los sitios web depositan en el dispositivo del usuario cuando éste los visita. Permiten al sitio recordar información entre visitas —como preferencias de visualización o el estado de sesión— para mejorar la experiencia de uso.</p>
+        <p>Existen distintos tipos de cookies según su duración (de sesión o persistentes), su origen (propias o de terceros) y su finalidad (técnicas esenciales, analíticas, de personalización o publicitarias).</p>
+        <p>La normativa aplicable —Ley 34/2002 (LSSICE) y directrices de la AEPD— exige informar al usuario y obtener su consentimiento para todas las cookies que no sean estrictamente necesarias para el funcionamiento del servicio.</p>
+      </section>
+
+      <section id="cookies-usadas" class="legal-section">
+        <h2>2. Cookies utilizadas en este sitio</h2>
+        <p>VulnerAI utiliza únicamente cookies técnicas propias, imprescindibles para el correcto funcionamiento del sitio. <strong>No se emplean cookies de analítica, publicidad ni seguimiento de terceros.</strong></p>
+
+        <div class="legal-table-wrapper">
+          <table class="legal-table" aria-label="Tabla de cookies utilizadas">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Duración</th>
+                <th scope="col">Finalidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>vulnerai_consent</code></td>
+                <td><span class="cookie-badge cookie-badge--essential">Esencial</span></td>
+                <td>12 meses</td>
+                <td>Almacena la preferencia de consentimiento de cookies del usuario para no volver a mostrar el banner en visitas posteriores. Se guarda en <code>localStorage</code>, no se transmite al servidor.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>La preferencia de consentimiento (<code>vulnerai_consent</code>) se almacena íntegramente en el dispositivo del usuario mediante la API <code>localStorage</code> del navegador. No se trata de una cookie HTTP convencional y no se envía al servidor en ningún momento. Puede ser eliminada en cualquier momento limpiando los datos del sitio en el navegador.</p>
+      </section>
+
+      <section id="cookies-terceros" class="legal-section">
+        <h2>3. Cookies de terceros</h2>
+        <p>VulnerAI <strong>no instala cookies de terceros</strong>. El sitio no integra servicios de analítica web (como Google Analytics), redes publicitarias, botones de redes sociales con seguimiento ni ningún otro servicio externo que genere cookies en el dispositivo del usuario.</p>
+        <p>Los enlaces externos presentes en el sitio (a OWASP, MITRE, NIST, etc.) se abren en nueva pestaña con los atributos <code>rel="noopener noreferrer"</code> para minimizar el intercambio de información entre contextos. Dichos sitios pueden tener sus propias políticas de cookies, ajenas a VulnerAI.</p>
+      </section>
+
+      <section id="gestion" class="legal-section">
+        <h2>4. Cómo gestionar las cookies</h2>
+        <p>Además de las opciones que ofrece VulnerAI a través de su banner de consentimiento, puedes gestionar o eliminar las cookies directamente desde la configuración de tu navegador:</p>
+        <ul>
+          <li><strong>Google Chrome:</strong> Menú → Configuración → Privacidad y seguridad → Cookies y otros datos de sitios</li>
+          <li><strong>Mozilla Firefox:</strong> Menú → Ajustes → Privacidad y seguridad → Cookies y datos del sitio</li>
+          <li><strong>Microsoft Edge:</strong> Menú → Configuración → Cookies y permisos del sitio</li>
+          <li><strong>Safari:</strong> Preferencias → Privacidad → Gestionar datos de sitios web</li>
+        </ul>
+        <p>Ten en cuenta que deshabilitar las cookies técnicas esenciales puede impedir el correcto funcionamiento de algunas características del sitio.</p>
+        <p>Para eliminar los datos almacenados por VulnerAI en <code>localStorage</code>, puedes usar las herramientas de desarrollador del navegador (F12 → Application → Local Storage → vulnerai.app) y eliminar la clave <code>vulnerai_consent</code>.</p>
+      </section>
+
+      <section id="preferencias" class="legal-section">
+        <h2>5. Cambiar tus preferencias</h2>
+        <p>Si deseas modificar las preferencias de cookies que estableciste en tu primera visita, puedes hacerlo en cualquier momento haciendo clic en el botón siguiente. Se volverá a mostrar el panel de consentimiento para que puedas actualizar tu elección.</p>
+        <div style="margin-top:var(--space-4)">
+          <button
+            type="button"
+            id="reset-consent-btn"
+            class="btn btn--outline btn--sm"
+            onclick="localStorage.removeItem('vulnerai_consent'); location.reload();"
+          >
+            Restablecer preferencias de cookies
+          </button>
+        </div>
+        <p style="margin-top:var(--space-3)">Para más información sobre cómo tratamos tus datos personales, consulta nuestra <a href="privacy.html">Política de Privacidad</a>.</p>
+      </section>
+
+    </div>
+
+    <nav class="legal-sibling-nav" aria-label="Otras páginas legales">
+      <a href="legal.html" class="legal-sibling-nav__link">Aviso Legal</a>
+      <a href="privacy.html" class="legal-sibling-nav__link">Política de Privacidad</a>
+    </nav>
+
+  </div>
+</main>
+
+<div data-component="footer"></div>
+<script src="assets/js/components.js"></script>
+<script src="assets/js/cookie-consent.js"></script>
+</body>
+</html>

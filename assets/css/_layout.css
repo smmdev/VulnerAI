@@ -1,0 +1,131 @@
+/* ─── Page wrapper ──────────────────────────────────────────────────────── */
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.page-main {
+  flex: 1;
+}
+
+/* ─── Section generic ───────────────────────────────────────────────────── */
+
+.section {
+  padding-block: var(--space-16);
+}
+
+.section--lg {
+  padding-block: var(--space-24);
+}
+
+.section__header {
+  margin-bottom: var(--space-10);
+}
+
+.section__header--between {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-10);
+}
+
+.section__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  margin-bottom: var(--space-3);
+  display: block;
+}
+
+.section__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: var(--space-3);
+  letter-spacing: -0.02em;
+}
+
+.section__subtitle {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  max-width: 540px;
+  line-height: 1.65;
+}
+
+/* ─── Cards grid ────────────────────────────────────────────────────────── */
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: var(--space-5);
+}
+.cards-grid > * { min-width: 0; }
+
+/* ─── 2 / 3 col grids ───────────────────────────────────────────────────── */
+
+.cols-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 480px), 1fr));
+  gap: var(--space-5);
+}
+
+.cols-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-5);
+}
+
+/* ─── Catalog layout ────────────────────────────────────────────────────── */
+
+.catalog-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .catalog-layout {
+    grid-template-columns: 248px 1fr;
+  }
+}
+
+.catalog-sidebar {
+  position: static;
+}
+
+/* ─── Detail layout ─────────────────────────────────────────────────────── */
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .detail-layout {
+    grid-template-columns: 1fr 260px;
+  }
+}
+
+.detail-sidebar {
+  position: static;
+}
+
+/* ─── Divider ───────────────────────────────────────────────────────────── */
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border-subtle);
+  margin-block: var(--space-8);
+}

@@ -1,0 +1,427 @@
+@media print {
+
+  /* ── Variables ──────────────────────────────────────────────────────────── */
+  :root {
+    --p-black:   #0a0a0a;
+    --p-dark:    #1a1a1a;
+    --p-muted:   #666666;
+    --p-light:   #999999;
+    --p-rule:    #cccccc;
+    --p-code-bg: #f4f4f4;
+    --p-accent:  #3730a3;
+  }
+
+  /* ── Hide web UI ────────────────────────────────────────────────────────── */
+  .site-header, .site-footer, .catalog-sidebar, .detail-sidebar,
+  .reading-progress, .toast, .breadcrumbs, .chip-list,
+  .code-block__copy, .drawer, .drawer-overlay, .vuln-tabs,
+  #print-page, #copy-url, [aria-label="Filtros"],
+  [aria-label="Abrir filtros"], .btn { display: none !important; }
+
+  .tab-panel, .tab-panel[hidden] { display: block !important; }
+
+  /* ── Page ───────────────────────────────────────────────────────────────── */
+  @page { size: A4; margin: 2.4cm 2.8cm 2.2cm; }
+  @page :first { margin-top: 1.8cm; }
+
+  *, *::before, *::after {
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    border-radius: 0 !important;
+    -webkit-text-fill-color: inherit !important;
+  }
+
+  html, body { background: #fff !important; color: var(--p-black); }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 10pt;
+    line-height: 1.6;
+  }
+
+  /* ── Layout ─────────────────────────────────────────────────────────────── */
+  .container  { max-width: 100%; padding-inline: 0; }
+  .page-main  { padding-block: 0 !important; }
+  .detail-layout, .catalog-layout, .vuln-header { display: block !important; }
+
+  /* ── Brand header ───────────────────────────────────────────────────────── */
+  .print-brand {
+    display: flex !important;
+    align-items: center;
+    padding: 6pt 10pt;
+    margin-bottom: 12pt;
+    background: #e8e8e8;
+    border-radius: 2pt;
+  }
+  .print-brand__logo { height: 26pt; width: auto; display: block; }
+
+  /* ── Footer ─────────────────────────────────────────────────────────────── */
+  .page-main::after {
+    content: "Generado por VulnerAI — Plataforma de referencia en seguridad de LLMs";
+    display: block;
+    margin-top: 14pt;
+    padding-top: 6pt;
+    border-top: 0.75pt solid var(--p-rule);
+    font-size: 7.5pt;
+    color: var(--p-light) !important;
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: center;
+  }
+
+  /* ── Hero ───────────────────────────────────────────────────────────────── */
+  .vulnerability-hero {
+    padding-block: 0 10pt !important;
+    border-bottom: 1.5pt solid var(--p-black) !important;
+    margin-bottom: 10pt !important;
+  }
+  .vuln-id {
+    font-family: 'Courier New', monospace;
+    font-size: 7.5pt;
+    color: var(--p-muted) !important;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 5pt;
+    display: block;
+  }
+  .vuln-title {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 19pt;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--p-black) !important;
+    margin-bottom: 7pt;
+  }
+  .vuln-subtitle {
+    font-size: 10pt;
+    color: var(--p-dark) !important;
+    line-height: 1.5;
+    margin-bottom: 5pt;
+  }
+  .vuln-meta, .vuln-badges {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6pt;
+  }
+  .severity-badge, .status-badge {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 1.5pt 6pt;
+    border: 1pt solid currentColor !important;
+  }
+
+  /* ── Section labels ─────────────────────────────────────────────────────── */
+  .detail-heading, .panel__title, .panel-title {
+    font-family: Helvetica, Arial, sans-serif !important;
+    font-size: 7.5pt !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.14em !important;
+    color: var(--p-muted) !important;
+    border: none !important;
+    border-bottom: 0.75pt solid var(--p-rule) !important;
+    padding: 0 0 3pt !important;
+    margin: 8pt 0 5pt !important;
+  }
+
+  /* Remove card borders — flat document style */
+  .panel, .detail-block, .section {
+    border: none !important;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+    background: transparent !important;
+  }
+
+  /* ── Description ────────────────────────────────────────────────────────── */
+  .vuln-description, .description-text {
+    font-size: 10pt;
+    line-height: 1.65;
+    color: var(--p-dark) !important;
+    margin-bottom: 10pt;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* ── Impact — ruled grid ────────────────────────────────────────────────── */
+  .impact-grid {
+    display: flex !important;
+    border-top: 0.75pt solid var(--p-rule);
+    border-left: 0.75pt solid var(--p-rule);
+    margin-bottom: 10pt;
+  }
+  .impact-card {
+    flex: 1;
+    border-right: 0.75pt solid var(--p-rule) !important;
+    border-bottom: 0.75pt solid var(--p-rule) !important;
+    padding: 6pt 8pt !important;
+    break-inside: avoid;
+  }
+  .impact-card .panel__title, .impact-label {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 6.5pt !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--p-muted) !important;
+    border: none !important;
+    margin: 0 0 2pt !important;
+    padding: 0 !important;
+  }
+  .impact-value, .impact-level {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11pt;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  /* ── Models — table rows ────────────────────────────────────────────────── */
+  .model-list { gap: 0 !important; }
+  .model-card {
+    display: grid !important;
+    grid-template-columns: 1fr auto;
+    gap: 2pt 8pt;
+    padding: 5pt 0 !important;
+    margin: 0 !important;
+    border-bottom: 0.5pt solid var(--p-rule) !important;
+    break-inside: avoid;
+  }
+  .model-card:first-child { border-top: 0.5pt solid var(--p-rule) !important; }
+  .model-card__name {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: var(--p-black) !important;
+    grid-column: 1;
+  }
+  .model-card__provider {
+    font-size: 7.5pt;
+    color: var(--p-muted) !important;
+    font-family: Helvetica, Arial, sans-serif;
+    grid-column: 1;
+  }
+  .model-card__notes {
+    font-size: 8.5pt;
+    color: var(--p-dark) !important;
+    line-height: 1.4;
+    grid-column: 1 / 3;
+    margin-top: 2pt;
+  }
+  .model-card__badge, .sus-badge {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 2pt 6pt;
+    border: 0.75pt solid currentColor !important;
+    white-space: nowrap;
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+  }
+
+  /* ── Standards ──────────────────────────────────────────────────────────── */
+  .standards-map, .standards-card { border: none !important; padding: 0 !important; margin: 0 !important; }
+  .standards-row {
+    display: flex;
+    gap: 6pt;
+    align-items: baseline;
+    padding: 4pt 0;
+    border-bottom: 0.5pt dotted var(--p-rule) !important;
+    font-size: 9pt;
+  }
+  .standards-row:first-child { border-top: 0.5pt dotted var(--p-rule) !important; }
+  .standards-label {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--p-muted) !important;
+    min-width: 90pt;
+  }
+  .standards-value {
+    font-family: 'Courier New', monospace;
+    font-size: 8.5pt;
+    color: var(--p-accent) !important;
+    font-weight: 700;
+  }
+
+  /* ── Mitigations — ruled list ───────────────────────────────────────────── */
+  .mitigation-list { gap: 0 !important; }
+  .mitigation-card {
+    border: none !important;
+    border-bottom: 0.5pt solid var(--p-rule) !important;
+    padding: 6pt 0 !important;
+    margin: 0 !important;
+    break-inside: avoid;
+  }
+  .mitigation-card:first-child { border-top: 0.5pt solid var(--p-rule) !important; }
+  .mitigation-title {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: var(--p-black) !important;
+    margin-bottom: 3pt;
+    display: flex;
+    align-items: center;
+    gap: 6pt;
+  }
+  .mitigation-type {
+    font-size: 6.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 1pt 4pt;
+    border: 0.75pt solid currentColor !important;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+  .mitigation-text, .mitigation-implementation {
+    font-size: 9pt;
+    line-height: 1.55;
+    color: var(--p-dark) !important;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* ── Examples — blockquote with left rule ───────────────────────────────── */
+  .example-list { gap: 0 !important; }
+  .example-card {
+    border: none !important;
+    border-left: 2pt solid var(--p-rule) !important;
+    padding: 5pt 0 5pt 10pt !important;
+    margin: 0 0 5pt !important;
+    break-inside: avoid;
+  }
+  .example-title, .example-card__title {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: var(--p-black) !important;
+    margin-bottom: 4pt;
+  }
+  .example-payload, .example-card__payload {
+    font-family: 'Courier New', monospace;
+    font-size: 8pt;
+    background: var(--p-code-bg) !important;
+    color: var(--p-dark) !important;
+    padding: 5pt 7pt;
+    display: block;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.4;
+    border-left: 1.5pt solid var(--p-rule) !important;
+    margin-bottom: 3pt;
+  }
+  .example-context, .example-card__context {
+    font-size: 8pt;
+    color: var(--p-muted) !important;
+    font-style: italic;
+  }
+
+  /* ── Code blocks ────────────────────────────────────────────────────────── */
+  pre, .code-block, .code-block pre, .code-block code {
+    overflow: visible !important;
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+    max-width: 100% !important;
+  }
+  pre, .code-block {
+    background: var(--p-code-bg) !important;
+    border: 0.75pt solid var(--p-rule) !important;
+    padding: 8pt 10pt;
+    font-family: 'Courier New', monospace;
+    font-size: 7.5pt;
+    line-height: 1.45;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    color: var(--p-black) !important;
+    margin: 6pt 0;
+  }
+  code {
+    font-family: 'Courier New', monospace;
+    font-size: 8pt;
+    background: var(--p-code-bg) !important;
+    color: var(--p-dark) !important;
+    padding: 0.5pt 2pt;
+  }
+
+  /* ── Related vulnerabilities ────────────────────────────────────────────── */
+  .related-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5pt;
+    padding: 6pt 0;
+  }
+  .related-item, .related-vuln {
+    font-family: 'Courier New', monospace;
+    font-size: 8pt;
+    font-weight: 700;
+    color: var(--p-accent) !important;
+    border: 0.75pt solid var(--p-rule) !important;
+    padding: 2pt 6pt;
+    text-decoration: none !important;
+  }
+
+  /* ── References ─────────────────────────────────────────────────────────── */
+  .reference-item {
+    padding: 4pt 0;
+    border-bottom: 0.5pt dotted var(--p-rule) !important;
+    font-size: 9pt;
+    display: flex;
+    gap: 6pt;
+    align-items: baseline;
+  }
+  .reference-item:first-child { border-top: 0.5pt dotted var(--p-rule) !important; }
+  .reference-item a { color: var(--p-accent) !important; text-decoration: underline; word-break: break-all; }
+  .reference-type {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 6.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--p-muted) !important;
+    border: 0.75pt solid var(--p-rule) !important;
+    padding: 1pt 4pt;
+    white-space: nowrap;
+  }
+
+  /* ── Prerequisites ──────────────────────────────────────────────────────── */
+  .prereq-list li, ul.prerequisites li {
+    font-size: 9pt;
+    line-height: 1.5;
+    color: var(--p-dark) !important;
+    padding: 2pt 0;
+    border-bottom: 0.5pt dotted var(--p-rule) !important;
+  }
+
+  /* ── Tab panel separators ───────────────────────────────────────────────── */
+  .tab-panel { gap: 0 !important; display: block !important; }
+  .tab-panel + .tab-panel {
+    margin-top: 10pt;
+    border-top: 0.75pt solid var(--p-rule);
+    padding-top: 10pt;
+  }
+
+  /* ── Typography ─────────────────────────────────────────────────────────── */
+  h1, h2, h3, h4, h5 {
+    font-family: Helvetica, Arial, sans-serif;
+    color: var(--p-black) !important;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  h2 { font-size: 13pt; margin: 10pt 0 5pt; }
+  h3 { font-size: 11pt; margin: 8pt 0 4pt; }
+  h4 { font-size: 9.5pt; margin: 6pt 0 3pt; }
+  p  { margin: 0 0 7pt; }
+  a  { color: var(--p-accent) !important; text-decoration: underline; }
+
+  /* ── Page breaks ────────────────────────────────────────────────────────── */
+  .mitigation-card, .example-card, .model-card,
+  .impact-card, pre, .code-block { break-inside: avoid; page-break-inside: avoid; }
+  h2, h3, h4, .detail-heading   { break-after: avoid;  page-break-after: avoid; }
+}

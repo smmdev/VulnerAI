@@ -1,0 +1,701 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<title>VulnerAI — Reportar vulnerabilidad</title>
+<meta name="description" content="Contribuye con nuevos hallazgos al diccionario VulnerAI. Reporta vulnerabilidades en LLMs de forma estructurada para su revisión técnica." />
+<meta name="author" content="Samuel Muñoz Millán" />
+<meta name="robots" content="noindex" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="assets/css/main.css" />
+<link rel="stylesheet" href="assets/css/contribute.css" />
+<script src="assets/js/theme.js"></script>
+<script defer src="assets/js/reveal.js"></script>
+</head>
+<body class="page-wrapper contribute-page">
+
+<!-- Cabecera restringida -->
+<header class="contribute-header" role="banner">
+  <div class="container contribute-header__inner">
+    <a href="index.html" class="site-header__logo" aria-label="VulnerAI — Cancelar y volver al inicio">
+      <img src="/logo.png" alt="VulnerAI" style="display:block;height:54px;width:auto">
+    </a>
+
+    <!-- Barra de usuario (visible cuando está autenticado) -->
+    <div class="auth-user-bar" id="auth-user-bar" hidden>
+      <img class="auth-user-bar__avatar" id="user-avatar" src="" alt="" width="26" height="26" hidden />
+      <span class="auth-user-bar__name" id="user-display-name"></span>
+    </div>
+
+    <div class="contribute-header__cancel">
+      <a href="index.html" class="btn btn--ghost btn--sm" aria-label="Cancelar reporte y volver al inicio">
+        Cancelar
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="page-main contribute-main" id="main-content">
+  <div class="container contribute-container">
+
+    <!-- ── Auth gate (visible por defecto hasta confirmar sesión) ─────────── -->
+    <div class="auth-gate" id="auth-gate" role="region" aria-label="Identificación requerida">
+      <div class="auth-gate__card">
+        <div class="auth-gate__icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h2 class="auth-gate__title">Identifícate para contribuir</h2>
+        <p class="auth-gate__desc">
+          Tu cuenta vincula el reporte a un investigador real.
+          Solo se usa para notificarte cuando sea revisado — nunca publicamos tu perfil sin permiso.
+        </p>
+
+        <div class="auth-gate__buttons">
+          <button class="btn-oauth btn-oauth--github" id="btn-login-github" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+            Continuar con GitHub
+          </button>
+
+          <button class="btn-oauth btn-oauth--google" id="btn-login-google" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Continuar con Google
+          </button>
+        </div>
+
+        <p class="auth-gate__note">
+          Al identificarte aceptas nuestra
+          <a href="privacy.html">política de privacidad</a>.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── Contenido del formulario (oculto hasta confirmar sesión) ────────── -->
+    <div id="contribute-content" hidden>
+
+      <!-- Indicador de progreso -->
+      <div class="progress-tunnel" role="navigation" aria-label="Progreso del formulario">
+        <div class="progress-tunnel__track" aria-hidden="true">
+          <div class="progress-tunnel__fill" id="progress-fill"></div>
+        </div>
+        <ol class="progress-tunnel__steps" role="list">
+          <li class="progress-step is-active" id="step-indicator-1" aria-current="step">
+            <span class="progress-step__number" aria-hidden="true">1</span>
+            <span class="progress-step__label">Identificación</span>
+          </li>
+          <li class="progress-step" id="step-indicator-2">
+            <span class="progress-step__number" aria-hidden="true">2</span>
+            <span class="progress-step__label">Descripción</span>
+          </li>
+          <li class="progress-step" id="step-indicator-3">
+            <span class="progress-step__number" aria-hidden="true">3</span>
+            <span class="progress-step__label">Clasificación</span>
+          </li>
+          <li class="progress-step" id="step-indicator-4">
+            <span class="progress-step__number" aria-hidden="true">4</span>
+            <span class="progress-step__label">Evidencia</span>
+          </li>
+          <li class="progress-step" id="step-indicator-5">
+            <span class="progress-step__number" aria-hidden="true">5</span>
+            <span class="progress-step__label">Revisión</span>
+          </li>
+        </ol>
+        <p class="progress-tunnel__counter" aria-live="polite" id="step-counter">Paso 1 de 5</p>
+      </div>
+
+      <!-- Formulario multi-paso -->
+      <form class="contribute-form" id="contribute-form" novalidate aria-label="Formulario de reporte de vulnerabilidad">
+
+        <!-- ── PASO 1: Identificación ── -->
+        <fieldset class="form-step is-visible" id="step-1" aria-labelledby="step-1-title">
+          <legend class="form-step__legend" id="step-1-title">
+            <span class="form-step__icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
+            Identificación de la amenaza
+          </legend>
+          <p class="form-step__intro">Comienza identificando la amenaza con los datos básicos. Usaremos la nomenclatura estándar de la industria (OWASP / MITRE ATLAS) para clasificarla correctamente.</p>
+
+          <div class="form-group" id="group-name">
+            <label class="form-label" for="threat-name">
+              Nombre de la amenaza
+              <span class="form-label__required" aria-label="campo obligatorio">*</span>
+            </label>
+            <input type="text" id="threat-name" name="threatName" class="form-input"
+              placeholder="Ej. Inyección de Prompt Indirecta vía PDF"
+              maxlength="120" autocomplete="off" required
+              aria-describedby="threat-name-hint threat-name-error" />
+            <p class="form-hint" id="threat-name-hint">Usa un nombre descriptivo y técnico. Máximo 120 caracteres.</p>
+            <p class="form-error" id="threat-name-error" role="alert" aria-live="polite" hidden></p>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" id="group-model">
+              <label class="form-label" id="affected-model-label">
+                Modelos afectados
+                <span class="form-label__required" aria-label="campo obligatorio">*</span>
+              </label>
+              <div class="model-multiselect" id="affected-model">
+                <button type="button" class="model-multiselect__trigger" id="model-select-trigger"
+                        aria-haspopup="true" aria-expanded="false" aria-describedby="affected-model-error">
+                  <span id="model-select-label">Seleccionar modelos…</span>
+                  <svg class="model-multiselect__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="model-multiselect__panel" id="model-select-panel" hidden>
+                  <div class="model-multiselect__group">
+                    <div class="model-multiselect__group-label">OpenAI</div>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="gpt-4o"><span>GPT-4o</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="gpt-4o-mini"><span>GPT-4o mini</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="gpt-4-turbo"><span>GPT-4 Turbo</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="gpt-3-5-turbo"><span>GPT-3.5 Turbo</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="o1"><span>o1</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="o3-mini"><span>o3-mini</span></label>
+                  </div>
+                  <div class="model-multiselect__group">
+                    <div class="model-multiselect__group-label">Anthropic</div>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="claude-3-5-sonnet"><span>Claude 3.5 Sonnet</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="claude-3-5-haiku"><span>Claude 3.5 Haiku</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="claude-3-opus"><span>Claude 3 Opus</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="claude-3-haiku"><span>Claude 3 Haiku</span></label>
+                  </div>
+                  <div class="model-multiselect__group">
+                    <div class="model-multiselect__group-label">Google DeepMind</div>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="gemini-2.0-flash"><span>Gemini 2.0 Flash</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="gemini-1.5-pro"><span>Gemini 1.5 Pro</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="gemini-1.0-pro"><span>Gemini 1.0 Pro</span></label>
+                  </div>
+                  <div class="model-multiselect__group">
+                    <div class="model-multiselect__group-label">Meta AI</div>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="llama-3-70b"><span>LLaMA 3 70B</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="llama-3-8b"><span>LLaMA 3 8B</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="llama-2-70b"><span>LLaMA 2 70B</span></label>
+                  </div>
+                  <div class="model-multiselect__group">
+                    <div class="model-multiselect__group-label">Mistral AI</div>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="mistral-large"><span>Mistral Large</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="mistral-7b"><span>Mistral 7B</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="mixtral-8x7b"><span>Mixtral 8x7B</span></label>
+                  </div>
+                  <div class="model-multiselect__group">
+                    <div class="model-multiselect__group-label">xAI / DeepSeek / Microsoft / Cohere</div>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="grok-3"><span>Grok-3 (xAI)</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="grok-2"><span>Grok-2 (xAI)</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="deepseek-r1"><span>DeepSeek R1</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="deepseek-v3"><span>DeepSeek V3</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="phi-3-mini"><span>Phi-3 Mini (Microsoft)</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="phi-3-medium"><span>Phi-3 Medium (Microsoft)</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="command-r-plus"><span>Command R+ (Cohere)</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="command-r"><span>Command R (Cohere)</span></label>
+                  </div>
+                  <div class="model-multiselect__group">
+                    <div class="model-multiselect__group-label">Otros</div>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="falcon-40b"><span>Falcon 40B (TII)</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="qwen-2.5-72b"><span>Qwen 2.5 72B</span></label>
+                    <label class="model-multiselect__option"><input type="checkbox" name="affectedModels" value="other"><span>Otro (especificar en descripción)</span></label>
+                  </div>
+                </div>
+              </div>
+              <p class="form-error" id="affected-model-error" role="alert" aria-live="polite" hidden></p>
+            </div>
+
+            <div class="form-group" id="group-severity">
+              <label class="form-label" for="severity">
+                Gravedad (CVSS)
+                <span class="form-label__required" aria-label="campo obligatorio">*</span>
+                <button type="button" class="tooltip-trigger" aria-label="Información sobre niveles de gravedad" aria-expanded="false" data-tooltip="tooltip-severity">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                </button>
+              </label>
+              <div class="form-select-wrap">
+                <select id="severity" name="severity" class="form-select" required aria-describedby="severity-error">
+                  <option value="">Seleccionar gravedad…</option>
+                  <option value="critical">Crítica (9.0–10.0)</option>
+                  <option value="high">Alta (7.0–8.9)</option>
+                  <option value="medium">Media (4.0–6.9)</option>
+                  <option value="low">Baja (0.1–3.9)</option>
+                </select>
+              </div>
+              <p class="form-error" id="severity-error" role="alert" aria-live="polite" hidden></p>
+              <div class="tooltip-box" id="tooltip-severity" role="tooltip" hidden>
+                <p><strong>Crítica:</strong> Explotación trivial con impacto catastrófico.</p>
+                <p><strong>Alta:</strong> Requiere condiciones específicas pero el impacto es severo.</p>
+                <p><strong>Media:</strong> Explotación posible con mitigaciones parciales disponibles.</p>
+                <p><strong>Baja:</strong> Impacto limitado o explotación muy difícil.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" id="group-category">
+            <label class="form-label" for="attack-category">
+              Categoría del ataque
+              <span class="form-label__required" aria-label="campo obligatorio">*</span>
+            </label>
+            <div class="category-grid" role="group" aria-labelledby="category-label" id="attack-category">
+              <label class="category-option"><input type="radio" name="attackCategory" value="injection" required /><span class="category-option__card"><span class="category-option__icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span><span class="category-option__name">Inyección</span><span class="category-option__desc">Prompt Injection, Indirect Injection</span></span></label>
+              <label class="category-option"><input type="radio" name="attackCategory" value="evasion" /><span class="category-option__card"><span class="category-option__icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></span><span class="category-option__name">Evasión</span><span class="category-option__desc">Jailbreak, filtros de seguridad</span></span></label>
+              <label class="category-option"><input type="radio" name="attackCategory" value="extraction" /><span class="category-option__card"><span class="category-option__icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span><span class="category-option__name">Extracción</span><span class="category-option__desc">Datos de entrenamiento, system prompt</span></span></label>
+              <label class="category-option"><input type="radio" name="attackCategory" value="poisoning" /><span class="category-option__card"><span class="category-option__icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="category-option__name">Envenenamiento</span><span class="category-option__desc">Data poisoning, backdoors</span></span></label>
+              <label class="category-option"><input type="radio" name="attackCategory" value="manipulation" /><span class="category-option__card"><span class="category-option__icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span><span class="category-option__name">Manipulación</span><span class="category-option__desc">Emocional, sesgos, desinformación</span></span></label>
+              <label class="category-option"><input type="radio" name="attackCategory" value="other" /><span class="category-option__card"><span class="category-option__icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="category-option__name">Otra</span><span class="category-option__desc">No clasificada en las anteriores</span></span></label>
+            </div>
+            <p class="form-error" id="attack-category-error" role="alert" aria-live="polite" hidden></p>
+          </div>
+
+          <div class="form-group" id="group-subcategory">
+            <label class="form-label" for="attack-subcategory">
+              Subcategoría
+              <span class="form-label__optional">(opcional)</span>
+            </label>
+            <input type="text" id="attack-subcategory" name="attackSubcategory"
+              class="form-input"
+              maxlength="120"
+              placeholder="p. ej. Direct Injection, Tool Poisoning, Training Data Extraction…"
+              aria-describedby="subcategory-hint" />
+            <p class="form-hint" id="subcategory-hint">Especifica la variante concreta dentro de la categoría seleccionada.</p>
+          </div>
+
+          <div class="form-actions form-actions--right">
+            <button type="button" class="btn btn--primary btn--lg" id="btn-next-1">
+              Siguiente: Descripción técnica
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- ── PASO 2: Descripción técnica ── -->
+        <fieldset class="form-step" id="step-2" aria-labelledby="step-2-title" hidden>
+          <legend class="form-step__legend" id="step-2-title">
+            <span class="form-step__icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
+            Descripción técnica
+          </legend>
+          <p class="form-step__intro">Documenta el núcleo técnico del ataque: cómo funciona, qué condiciones lo permiten y qué propones para mitigarlo.</p>
+
+          <div class="form-group" id="group-short-desc">
+            <label class="form-label" for="short-description">
+              Descripción breve
+              <span class="form-label__optional">(resumen en 1–2 frases)</span>
+            </label>
+            <textarea id="short-description" name="shortDescription" class="form-textarea" rows="2"
+              maxlength="300"
+              placeholder="Una frase concisa que describa la vulnerabilidad. Aparecerá en la tarjeta del catálogo…"
+              aria-describedby="short-desc-hint"></textarea>
+            <p class="form-hint" id="short-desc-hint">Máximo 300 caracteres.</p>
+          </div>
+
+          <div class="form-group" id="group-payload">
+            <label class="form-label" for="attack-payload">
+              Payload principal / Vector de prueba
+              <span class="form-label__required" aria-label="campo obligatorio">*</span>
+            </label>
+            <div class="code-textarea-wrap">
+              <span class="code-textarea-wrap__lang" aria-hidden="true">PROMPT / CÓDIGO</span>
+              <textarea id="attack-payload" name="attackPayload" class="form-textarea form-textarea--code" rows="6"
+                placeholder="Escribe aquí el prompt de prueba o fragmento de código que demuestra la vulnerabilidad…"
+                required aria-describedby="payload-hint payload-error"></textarea>
+            </div>
+            <p class="form-hint" id="payload-hint">Incluye el payload exacto en un entorno controlado. Nunca uses datos de usuarios reales.</p>
+            <p class="form-error" id="payload-error" role="alert" aria-live="polite" hidden></p>
+          </div>
+
+          <div class="form-group" id="group-description">
+            <label class="form-label" for="tech-description">
+              Descripción técnica completa
+              <span class="form-label__required" aria-label="campo obligatorio">*</span>
+            </label>
+            <textarea id="tech-description" name="techDescription" class="form-textarea" rows="6"
+              minlength="80"
+              placeholder="Explica cómo funciona el ataque, qué condiciones lo hacen posible, qué actores intervienen y cuál es el impacto real…"
+              required aria-describedby="description-hint description-error description-count"></textarea>
+            <div class="form-meta-row">
+              <p class="form-hint" id="description-hint">Mínimo 80 caracteres. Sé preciso y técnico.</p>
+              <span class="char-count" id="description-count" aria-live="polite">0 / 80</span>
+            </div>
+            <p class="form-error" id="description-error" role="alert" aria-live="polite" hidden></p>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="cve-reference">
+                Referencia CVE / MITRE ATLAS
+                <span class="form-label__optional">(si existe)</span>
+              </label>
+              <input type="text" id="cve-reference" name="cveReference" class="form-input"
+                placeholder="CVE-2024-1234 o AML.T0054"
+                pattern="^(CVE-\d{4}-\d{4,}|AML\.[A-Z]\d{4}(\.\d{3})?)$"
+                aria-describedby="cve-hint cve-error" />
+              <p class="form-hint" id="cve-hint">CVE-YYYY-NNNNN o AML.TXXXX.</p>
+              <p class="form-error" id="cve-error" role="alert" aria-live="polite" hidden></p>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cvss-score">
+                Puntuación CVSS
+                <span class="form-label__optional">(0.0 – 10.0)</span>
+              </label>
+              <input type="number" id="cvss-score" name="cvssScore" class="form-input"
+                min="0" max="10" step="0.1" placeholder="8.5"
+                aria-describedby="cvss-hint cvss-score-error cvss-coherence-warning" />
+              <p class="form-hint" id="cvss-hint">Estimación del nivel de riesgo según CVSS v3.1.</p>
+              <p class="form-error" id="cvss-score-error" role="alert" aria-live="polite" hidden></p>
+              <p class="form-warning" id="cvss-coherence-warning" role="status" aria-live="polite" hidden></p>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--ghost btn--lg" id="btn-back-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              Anterior
+            </button>
+            <button type="button" class="btn btn--primary btn--lg" id="btn-next-2">
+              Siguiente: Clasificación
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- ── PASO 3: Clasificación y estándares ── -->
+        <fieldset class="form-step" id="step-3" aria-labelledby="step-3-title" hidden>
+          <legend class="form-step__legend" id="step-3-title">
+            <span class="form-step__icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>
+            Clasificación y estándares
+          </legend>
+          <p class="form-step__intro">Sitúa la vulnerabilidad dentro de los marcos de referencia de la industria. Todos los campos son opcionales pero enriquecen enormemente la ficha técnica.</p>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="contrib-attack-vector">Vector de ataque</label>
+              <div class="form-select-wrap">
+                <select id="contrib-attack-vector" name="attackVector" class="form-select">
+                  <option value="">— Sin especificar —</option>
+                  <option value="user_input">Entrada de usuario</option>
+                  <option value="external_content">Contenido externo (RAG, documentos)</option>
+                  <option value="inference">Inferencia del modelo</option>
+                  <option value="training_pipeline">Pipeline de entrenamiento</option>
+                  <option value="output_pipeline">Pipeline de salida</option>
+                  <option value="agent_pipeline">Pipeline agéntico</option>
+                  <option value="api">API directa</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cvss-vector">Vector CVSS (cadena completa)</label>
+              <input type="text" id="cvss-vector" name="cvssVector" class="form-input"
+                placeholder="AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:L/A:N" />
+              <p class="form-hint">Cadena CVSS v3.1 completa si la conoces.</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Mapeo a estándares de seguridad</label>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="std-owasp" style="font-weight:400;color:var(--text-secondary)">OWASP LLM Top 10</label>
+                <input type="text" id="std-owasp" name="stdOwasp" class="form-input" placeholder="LLM01:2025"
+                  aria-describedby="std-owasp-warning" />
+                <p class="form-warning" id="std-owasp-warning" role="status" aria-live="polite" hidden></p>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="std-mitre" style="font-weight:400;color:var(--text-secondary)">MITRE ATLAS</label>
+                <input type="text" id="std-mitre" name="stdMitre" class="form-input" placeholder="AML.T0054"
+                  aria-describedby="std-mitre-warning" />
+                <p class="form-warning" id="std-mitre-warning" role="status" aria-live="polite" hidden></p>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="std-nist" style="font-weight:400;color:var(--text-secondary)">NIST AI RMF</label>
+                <input type="text" id="std-nist" name="stdNist" class="form-input" placeholder="GOVERN 1.1" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Impacto CIA estimado</label>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="impact-confidentiality" style="font-weight:400;color:var(--text-secondary)">Confidencialidad</label>
+                <div class="form-select-wrap">
+                  <select id="impact-confidentiality" name="impactConfidentiality" class="form-select">
+                    <option value="none">Ninguno</option>
+                    <option value="low">Bajo</option>
+                    <option value="medium">Medio</option>
+                    <option value="high">Alto</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="impact-integrity" style="font-weight:400;color:var(--text-secondary)">Integridad</label>
+                <div class="form-select-wrap">
+                  <select id="impact-integrity" name="impactIntegrity" class="form-select">
+                    <option value="none">Ninguno</option>
+                    <option value="low">Bajo</option>
+                    <option value="medium">Medio</option>
+                    <option value="high">Alto</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="impact-availability" style="font-weight:400;color:var(--text-secondary)">Disponibilidad</label>
+                <div class="form-select-wrap">
+                  <select id="impact-availability" name="impactAvailability" class="form-select">
+                    <option value="none">Ninguno</option>
+                    <option value="low">Bajo</option>
+                    <option value="medium">Medio</option>
+                    <option value="high">Alto</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top:var(--space-3)">
+              <label class="form-label" for="impact-description" style="font-weight:400;color:var(--text-secondary)">Descripción del impacto</label>
+              <textarea id="impact-description" name="impactDescription" class="form-textarea" rows="2"
+                placeholder="Consecuencias reales si la vulnerabilidad es explotada con éxito…"></textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="contrib-prerequisites">Prerequisitos del ataque</label>
+              <input type="text" id="contrib-prerequisites" name="prerequisites" class="form-input"
+                placeholder="Acceso al system prompt, modelo sin guardrails, contexto RAG…" />
+              <p class="form-hint">Separados por coma.</p>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contrib-tags">Tags de clasificación</label>
+              <input type="text" id="contrib-tags" name="tags" class="form-input"
+                placeholder="prompt-injection, rag, multimodal, jailbreak…" />
+              <p class="form-hint">Separados por coma.</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contrib-related">Vulnerabilidades relacionadas</label>
+            <input type="text" id="contrib-related" name="relatedVulns" class="form-input"
+              placeholder="VAI-2024-001, VAI-2024-003…" />
+            <p class="form-hint">IDs del catálogo VulnerAI, separados por coma.</p>
+          </div>
+
+          <!-- Per-model impact — populated dynamically from step 1 selections -->
+          <div id="model-impact-section" style="display:none">
+            <div class="form-group">
+              <label class="form-label">Nivel de impacto por modelo</label>
+              <p class="form-hint" style="margin-top:0;margin-bottom:var(--space-3)">Indica cómo afecta esta vulnerabilidad a cada modelo seleccionado.</p>
+              <div id="model-impact-rows"></div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--ghost btn--lg" id="btn-back-3">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              Anterior
+            </button>
+            <button type="button" class="btn btn--primary btn--lg" id="btn-next-3">
+              Siguiente: Evidencia
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- ── PASO 4: Evidencia, mitigaciones y referencias ── -->
+        <fieldset class="form-step" id="step-4" aria-labelledby="step-4-title" hidden>
+          <legend class="form-step__legend" id="step-4-title">
+            <span class="form-step__icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+            Evidencia, mitigaciones y referencias
+          </legend>
+          <p class="form-step__intro">Aporta ejemplos adicionales de explotación, las medidas de mitigación propuestas, un snippet de código funcional y las fuentes bibliográficas.</p>
+
+          <!-- Mitigaciones -->
+          <div class="form-group">
+            <label class="form-label">Mitigaciones propuestas</label>
+            <p class="form-hint" style="margin-bottom:var(--space-3)">Detalla las medidas defensivas que propones para esta vulnerabilidad.</p>
+            <div id="contrib-mitigations-list"></div>
+            <button type="button" class="btn btn--ghost btn--sm" id="btn-add-mitigation">+ Añadir mitigación</button>
+          </div>
+
+          <!-- Ejemplos adicionales -->
+          <div class="form-group">
+            <label class="form-label">Ejemplos adicionales de ataque</label>
+            <p class="form-hint" style="margin-bottom:var(--space-3)">Variantes o escenarios alternativos del ataque principal.</p>
+            <div id="contrib-examples-list"></div>
+            <button type="button" class="btn btn--ghost btn--sm" id="btn-add-example">+ Añadir ejemplo</button>
+          </div>
+
+          <!-- Snippet de código -->
+          <div class="form-group">
+            <label class="form-label">Snippet de código</label>
+            <p class="form-hint" style="margin-bottom:var(--space-3)">Un fragmento de código que ilustre el ataque o la defensa (Python, JavaScript, System Prompt…).</p>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="snippet-title" style="font-weight:400;color:var(--text-secondary)">Título del snippet</label>
+                <input type="text" id="snippet-title" name="snippetTitle" class="form-input" placeholder="Ejemplo de inyección básica" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="snippet-type" style="font-weight:400;color:var(--text-secondary)">Tipo</label>
+                <div class="form-select-wrap">
+                  <select id="snippet-type" name="snippetType" class="form-select">
+                    <option value="">— Sin especificar —</option>
+                    <option value="attack">Ataque</option>
+                    <option value="defense">Defensa</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="snippet-language" style="font-weight:400;color:var(--text-secondary)">Lenguaje</label>
+                <input type="text" id="snippet-language" name="snippetLanguage" class="form-input" placeholder="python, prompt, javascript…" />
+              </div>
+            </div>
+            <div class="form-group" style="margin-top:var(--space-3)">
+              <label class="form-label" for="snippet-explanation" style="font-weight:400;color:var(--text-secondary)">Explicación</label>
+              <textarea id="snippet-explanation" name="snippetExplanation" class="form-textarea" rows="2"
+                placeholder="Qué hace este código y por qué es relevante para la vulnerabilidad…"></textarea>
+            </div>
+            <div class="form-group" style="margin-top:var(--space-3)">
+              <label class="form-label" for="snippet-code" style="font-weight:400;color:var(--text-secondary)">Código</label>
+              <div class="code-textarea-wrap">
+                <span class="code-textarea-wrap__lang" aria-hidden="true">CÓDIGO</span>
+                <textarea id="snippet-code" name="snippetCode" class="form-textarea form-textarea--code" rows="8"
+                  placeholder="# Escribe aquí el código…"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Referencias bibliográficas -->
+          <div class="form-group">
+            <label class="form-label">Referencias bibliográficas</label>
+            <p class="form-hint" style="margin-bottom:var(--space-3)">Artículos, papers, CVEs o documentación oficial que respalden el hallazgo.</p>
+            <div id="contrib-references-list"></div>
+            <button type="button" class="btn btn--ghost btn--sm" id="btn-add-reference">+ Añadir referencia</button>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="mitigation-proposal">
+              Estrategia de mitigación resumida
+              <span class="form-label__optional">(texto libre, complementa las mitigaciones estructuradas)</span>
+            </label>
+            <textarea id="mitigation-proposal" name="mitigationProposal" class="form-textarea" rows="3"
+              placeholder="Describe de forma libre la defensa técnica que propones…"
+              aria-describedby="mitigation-hint"></textarea>
+            <p class="form-hint" id="mitigation-hint">Puedes incluir System Prompts defensivos, guardrails o configuraciones recomendadas.</p>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--ghost btn--lg" id="btn-back-4">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              Anterior
+            </button>
+            <button type="button" class="btn btn--primary btn--lg" id="btn-next-4">
+              Revisar reporte
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- ── PASO 5: Revisión y confirmación ── -->
+        <fieldset class="form-step" id="step-5" aria-labelledby="step-5-title" hidden>
+          <legend class="form-step__legend" id="step-5-title">
+            <span class="form-step__icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+            Revisión y confirmación
+          </legend>
+          <p class="form-step__intro">Revisa que todo esté correcto antes de enviar. El equipo de VulnerAI revisará tu reporte antes de publicarlo.</p>
+
+          <div class="review-summary" id="review-summary" aria-label="Resumen del reporte">
+            <div class="review-block" id="review-block-1">
+              <h3 class="review-block__title">Identificación</h3>
+              <dl class="review-dl" id="review-dl-1"></dl>
+            </div>
+            <div class="review-block" id="review-block-2">
+              <h3 class="review-block__title">Descripción técnica</h3>
+              <dl class="review-dl" id="review-dl-2"></dl>
+            </div>
+            <div class="review-block" id="review-block-3">
+              <h3 class="review-block__title">Clasificación</h3>
+              <dl class="review-dl" id="review-dl-3"></dl>
+            </div>
+            <div class="review-block" id="review-block-4">
+              <h3 class="review-block__title">Evidencia</h3>
+              <dl class="review-dl" id="review-dl-4"></dl>
+            </div>
+          </div>
+
+          <div class="form-group" id="group-email">
+            <label class="form-label" for="researcher-email">
+              Tu correo electrónico
+              <span class="form-label__required" aria-label="campo obligatorio">*</span>
+            </label>
+            <input type="email" id="researcher-email" name="researcherEmail" class="form-input"
+              placeholder="investigador@ejemplo.com" required autocomplete="email"
+              aria-describedby="email-hint email-error" />
+            <p class="form-hint" id="email-hint">Solo se usará para notificarte cuando tu reporte sea revisado. No se publicará.</p>
+            <p class="form-error" id="email-error" role="alert" aria-live="polite" hidden></p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-checkbox">
+              <input type="checkbox" id="confirm-accuracy" name="confirmAccuracy" required aria-describedby="confirm-error" />
+              <span class="form-checkbox__box" aria-hidden="true"></span>
+              <span class="form-checkbox__label">
+                Confirmo que la información es verídica, fue obtenida en un entorno controlado y no incluye datos de usuarios reales.
+              </span>
+            </label>
+            <p class="form-error" id="confirm-error" role="alert" aria-live="polite" hidden></p>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--ghost btn--lg" id="btn-back-5">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              Anterior
+            </button>
+            <button type="submit" class="btn btn--primary btn--lg btn--submit" id="btn-submit">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+              Enviar para revisión técnica
+            </button>
+          </div>
+        </fieldset>
+
+      </form>
+
+      <!-- Estado de éxito -->
+      <div class="contribute-success" id="contribute-success" hidden role="status" aria-live="polite">
+        <div class="contribute-success__icon" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h2 class="contribute-success__title">Reporte enviado correctamente</h2>
+        <p class="contribute-success__text">El equipo de VulnerAI revisará tu hallazgo en un plazo de <strong>5–7 días hábiles</strong>. Te notificaremos por correo cuando el proceso de validación técnica haya concluido.</p>
+        <div class="contribute-success__actions">
+          <a href="vulnerabilities.html" class="btn btn--primary">Explorar el catálogo</a>
+          <a href="index.html" class="btn btn--ghost">Volver al inicio</a>
+        </div>
+      </div>
+
+    </div><!-- /contribute-content -->
+
+  </div>
+</main>
+
+<footer class="contribute-footer" role="contentinfo">
+  <div class="container">
+    <nav aria-label="Navegación legal">
+      <ul class="contribute-footer__links" role="list">
+        <li><a href="privacy.html">Privacidad</a></li>
+        <li><a href="cookies.html">Cookies</a></li>
+        <li><a href="legal.html">Aviso Legal</a></li>
+      </ul>
+    </nav>
+    <p class="contribute-footer__copy">© 2026 VulnerAI — Universidad de Jaén</p>
+  </div>
+</footer>
+
+<script type="module" src="assets/js/contribute.js"></script>
+<script src="assets/js/cookie-consent.js"></script>
+</body>
+</html>
